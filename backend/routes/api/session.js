@@ -50,10 +50,14 @@ const router = express.Router();
 // );
 
 const validateLogin = [
-  check('credential')
+  check('username')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
+    .withMessage('Please provide a valid username.'),
+  check('email')
+    .exists({checkFalsy: true})
+    .notEmpty()
+    .withMessage('Please provide a valid email'),
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password.'),
@@ -66,13 +70,13 @@ router.post(
   '/',
   validateLogin,
   async (req, res, next) => {
-    const { credential, password } = req.body;
+    const { username, email, password } = req.body;
 
     const user = await User.unscoped().findOne({
       where: {
         [Op.or]: {
-          username: credential,
-          email: credential
+          username: username,
+          email: email
         }
       }
     });
@@ -89,6 +93,8 @@ router.post(
       id: user.id,
       email: user.email,
       username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName
     };
 
     await setTokenCookie(res, safeUser);
@@ -120,6 +126,8 @@ router.get(
           id: user.id,
           email: user.email,
           username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName
         };
         return res.json({
           user: safeUser
