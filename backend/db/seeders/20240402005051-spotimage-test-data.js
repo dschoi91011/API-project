@@ -1,7 +1,6 @@
 'use strict';
 
 const {SpotImage} = require('../models');
-const bcrypt = require('bcryptjs');
 
 let options = {};
 if(process.env.NODE_ENV === 'production') options.schema = process.env.SCHEMA 
@@ -27,6 +26,8 @@ module.exports = {
   async down (queryInterface, Sequelize) {
 
     options.tableName = 'SpotImages';
-    await queryInterface.bulkDelete('SpotImages', options, null, {});
+    const Op = Sequelize.Op;
+  
+    await queryInterface.bulkDelete(options, {}, {});
   }
 };

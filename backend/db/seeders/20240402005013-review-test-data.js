@@ -1,7 +1,6 @@
 'use strict';
 
 const {Review} = require('../models');
-const bcrypt = require('bcryptjs');
 
 let options = {};
 if(process.env.NODE_ENV === 'production') options.schema = process.env.SCHEMA 
@@ -29,6 +28,8 @@ module.exports = {
   async down (queryInterface, Sequelize) {
 
     options.tableName = 'Reviews';
-    await queryInterface.bulkDelete('Reviews', options, null, {});
+    const Op = Sequelize.Op;
+  
+    await queryInterface.bulkDelete(options, {}, {});
   }
 };

@@ -15,10 +15,11 @@ router.get('/', async (req, res, next) => {
     const allSpots = await Spot.findAll({
         include: [Review, SpotImage]
     })
-    console.log(allSpots[0].dataValues.Reviews)
+    console.log(allSpots)
+    // console.log(allSpots[0].dataValues.Reviews)
     res.status(200).json({Spots: allSpots});
 });
 
-
+//loop through query (await spot.findall)
 
 module.exports = router;
