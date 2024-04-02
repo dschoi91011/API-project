@@ -1,10 +1,12 @@
 'use strict';
 
+const {Spot} = require('../models');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    await queryInterface.bulkInsert('Spots', [
+    await Spot.bulkCreate([
       {
         ownerId: 1,
         address: '123 Disney Lane',
