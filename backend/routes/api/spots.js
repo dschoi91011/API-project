@@ -9,65 +9,74 @@ const {handleValidationErrors} = require('../../utils/validation');
 
 const router = express.Router();
 
-
+//Get all spots----------------------------------------------------------
 router.get('/', async (req, res, next) => {
 
     const allSpots = await Spot.findAll({
         include: [
-            Review,
-            SpotImage
+            {model: Review},
+            {model: SpotImage}
         ]
-    })
+    });
 
     const arr = [];
+
     allSpots.forEach(ele => {
         const spotBody = ele.toJSON();
         const reviewsArr = spotBody.Reviews;
 
         let sum = 0;
-        let avg = 0;
+        // let avg = 0;
 
-        for(let i = 0; i < reviewsArr.length; i++){
-            if(reviewsArr.length > 0){
+        if(reviewsArr && reviewsArr.length > 0){
+            for(let i = 0; i < reviewsArr.length; i++){
                 sum += reviewsArr[i].stars
             }
         }
 
-        if(reviewsArr.length) avg = sum / reviewsArr.length;
+        // if(reviewsArr.length) avg = sum / reviewsArr.length;
+        const avg = sum / reviewsArr.length
 
+        spotBody.avgRating = avg;
 
-        //-------------------------------------------------------
+        //--------spotimages---------------------
 
-        const imgArr = spotBody.SpotImages;
-        // console.log(imgArr)
-        
-        let previewimg;
-
-        for(let i = 0; i < imgArr.length; i++){
-            if(imgArr.length > 0 && imgArr[i].preview === true){
-                previewimg = imgArr[i].url
-            }
+        if(spotBody.SpotImages[0]){
+            spotBody.previewImage = spotBody.SpotImages[0].url
         }
-        
-        ele.previewImage = previewimg
-        // console.log(previewimg)
-    })
 
-    res.status(200).json({Spots: allSpots});
+        if(!spotBody.SpotImages[0]){
+            spotBody.previewImage = 'Does not exist'
+        }
+
+        delete spotBody.SpotImages
+        delete spotBody.Reviews
+
+        
+        // console.log(previewimg)
+        arr.push(spotBody)
+
+    });
+
+    console.log(arr)
+    res.status(200).json({Spots: arr});
 });
 
-
+//Get all spots owned by current user-----------------------------------------
+//Review 'const {user} = req
+//Still requires avgRating and spotImg
 router.get('/current', requireAuth, async (req, res, next) => {
     const {user} = req
 
     const allSpots = await Spot.findAll({
         where: {ownerId: user.id}
-    })
+    });
 
     res.json(allSpots)
-})
+});
 
-
+//Get details of spot from an id----------------------------------------------
+//Still requires aliasing
 router.get('/:spotId', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId, {
         include: [
@@ -88,7 +97,39 @@ router.get('/:spotId', async (req, res, next) => {
     }
 
     res.json(spot)
-})
+});
+
+//Create a spot-----------------------------------------------------------------
+router.post('/', requireAuth, async (req, res, next) => {
+
+    const {address, city, state, country, lat, lng, name, description, price} = req.body;
+    const ownerId = req.user.id
+
+    const newSpot = await Spot.create({
+        ownerId, address, city, state, country, lat, lng, name, description, price
+    });
+
+    if(!address ||
+       !city ||
+       !state ||
+       !country ||
+       (lat < -90 || lat > 90) ||
+       (lng < -180 || lng > 180) ||
+       name.length >= 50 ||
+       !description ||
+       price <= 0     
+    ){
+        res.status(400).json({message: 'Bad Request'});
+        return;
+    }
+
+    res.status(201).json(newSpot);
+});
+
+//Add image to spot based on spot's id------------------------------------------
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+
+});
 
 
 module.exports = router;
