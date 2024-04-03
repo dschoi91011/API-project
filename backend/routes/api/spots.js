@@ -110,7 +110,8 @@ router.get('/:spotId', async (req, res, next) => {
                 attributes: ['id', 'url', 'preview']
             },
             {
-                model: User,// as: 'Owner',
+                model: User,
+                as: 'Owner',
                 attributes: ['id', 'firstName', 'lastName']
             }
         ]
@@ -184,12 +185,16 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     
     const spot = await Spot.findOne(req.user.spotId)
     if(!spot){
-        return res.status(404).json({message: "Spot couldn't be found"})
+        return res.status(404).json({message: "Spot couldn't be found"})  
     };
 
+    //if spot owner id === current user id
+    //else error 403 w/ message
     const addedImg = await SpotImage.create({
         url, preview
     });
+
+    await spot.addSpotImages(addedImg)
 
     res.json(addedImg);
 });
