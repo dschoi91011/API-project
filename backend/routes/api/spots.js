@@ -13,10 +13,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
 
     const allSpots = await Spot.findAll({
-        include: [
-            {model: Review},
-            {model: SpotImage}
-        ]
+        include: [Review, SpotImage]
     });
 
     const arr = [];
@@ -25,8 +22,9 @@ router.get('/', async (req, res, next) => {
         const spotBody = ele.toJSON();
         const reviewsArr = spotBody.Reviews;
 
+        if(reviewsArr.length === 0) spotBody.avgRating = 'No reviews available'
+
         let sum = 0;
-        // let avg = 0;
 
         if(reviewsArr && reviewsArr.length > 0){
             for(let i = 0; i < reviewsArr.length; i++){
@@ -34,7 +32,6 @@ router.get('/', async (req, res, next) => {
             }
         }
 
-        // if(reviewsArr.length) avg = sum / reviewsArr.length;
         const avg = sum / reviewsArr.length
 
         spotBody.avgRating = avg;
@@ -52,13 +49,9 @@ router.get('/', async (req, res, next) => {
         delete spotBody.SpotImages
         delete spotBody.Reviews
 
-        
-        // console.log(previewimg)
         arr.push(spotBody)
-
     });
 
-    console.log(arr)
     res.status(200).json({Spots: arr});
 });
 
@@ -69,7 +62,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const {user} = req
 
     const allSpots = await Spot.findAll({
-        where: {ownerId: user.id}
+        where: {ownerId: user.id},
+        include: [Review, SpotImage]
     });
 
     res.json(allSpots)
