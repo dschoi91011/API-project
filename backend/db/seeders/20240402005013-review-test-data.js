@@ -26,7 +26,7 @@ module.exports = {
         spotId: 2,
         userId: 3,
         review: 'This is yet another review',
-        stars: 5
+        stars: 3
       }
     ]);
   },

@@ -45,7 +45,7 @@ module.exports = {
         name: 'Yet another place',
         description: 'Test data 3',
         price: 200
-      }
+      },
     ])
   },
 

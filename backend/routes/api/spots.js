@@ -13,13 +13,82 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
 
     const allSpots = await Spot.findAll({
-        include: [Review, SpotImage]
+        include: [
+            Review,
+            SpotImage
+        ]
     })
-    console.log(allSpots)
-    // console.log(allSpots[0].dataValues.Reviews)
+
+    const arr = [];
+    allSpots.forEach(ele => {
+        const spotBody = ele.toJSON();
+        const reviewsArr = spotBody.Reviews;
+
+        let sum = 0;
+        let avg = 0;
+
+        for(let i = 0; i < reviewsArr.length; i++){
+            if(reviewsArr.length > 0){
+                sum += reviewsArr[i].stars
+            }
+        }
+
+        if(reviewsArr.length) avg = sum / reviewsArr.length;
+
+
+        //-------------------------------------------------------
+
+        const imgArr = spotBody.SpotImages;
+        // console.log(imgArr)
+        
+        let previewimg;
+
+        for(let i = 0; i < imgArr.length; i++){
+            if(imgArr.length > 0 && imgArr[i].preview === true){
+                previewimg = imgArr[i].url
+            }
+        }
+        
+        ele.previewImage = previewimg
+        // console.log(previewimg)
+    })
+
     res.status(200).json({Spots: allSpots});
 });
 
-//loop through query (await spot.findall)
+
+router.get('/current', requireAuth, async (req, res, next) => {
+    const {user} = req
+
+    const allSpots = await Spot.findAll({
+        where: {ownerId: user.id}
+    })
+
+    res.json(allSpots)
+})
+
+
+router.get('/:spotId', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId, {
+        include: [
+            {
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User,// as: 'Owner',
+                attributes: ['id', 'firstName', 'lastName']
+            }
+        ]
+    })
+
+    if(!spot){
+        res.status(404).json({message: "Spot couldn't be found"});
+        return
+    }
+
+    res.json(spot)
+})
+
 
 module.exports = router;

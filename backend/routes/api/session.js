@@ -50,17 +50,16 @@ const router = express.Router();
 // );
 
 const validateLogin = [
-  check('username')
+
+  check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid username.'),
-  check('email')
-    .exists({checkFalsy: true})
-    .notEmpty()
-    .withMessage('Please provide a valid email'),
+    .withMessage('Please provide a valid username or email.'),
+
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password.'),
+    
   handleValidationErrors
 ];
 
@@ -70,13 +69,13 @@ router.post(
   '/',
   validateLogin,
   async (req, res, next) => {
-    const { username, email, password } = req.body;
+    const { credential, password } = req.body;
 
     const user = await User.unscoped().findOne({
       where: {
         [Op.or]: {
-          username: username,
-          email: email
+          username: credential,
+          email: credential
         }
       }
     });
