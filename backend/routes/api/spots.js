@@ -101,7 +101,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
 });
 
 //Get details of spot from an id----------------------------------------------
-//Still requires aliasing
 router.get('/:spotId', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId, {
         include: [
@@ -179,6 +178,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 //Add image to spot based on spot's id------------------------------------------
 //Check authorization
+//Not posting to Spot / images
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const spotId = req.params.spotId;
     const {url, preview} = req.body;
@@ -190,6 +190,11 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     //if spot owner id === current user id
     //else error 403 w/ message
+    if(Spot.ownerId !== req.user.id){
+        const err = new Error();
+        err.status(403).json({message: 'Forbidden'});
+    }
+
     const addedImg = await SpotImage.create({
         url, preview
     });
@@ -252,6 +257,9 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     if(!spot){
         return res.status(404).json({message: "Spot couldn't be found"});
     }
+
+    //if spot owner id === current user id
+    //else error 403 w/ message
 
     await spot.update({
         address,
