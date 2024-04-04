@@ -179,8 +179,6 @@ router.post('/', requireAuth, async (req, res, next) => {
 });
 
 //Add image to spot based on spot's id------------------------------------------
-//Check authorization
-//Not posting to Spot / images
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.spotId);
     const {url, preview} = req.body;
@@ -192,8 +190,6 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         throw err;
     };
 
-    //if spot owner id === current user id
-    //else error 403 w/ message
     if(spot.ownerId !== req.user.id){
         const err = new Error('Forbidden');
         err.status = 403;
@@ -261,8 +257,6 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
         throw err;
     };
 
-    //if spot owner id === current user id
-    //else error 403 w/ message
     if(spot.ownerId !== req.user.id){
         const err = new Error('Forbidden');
         err.status = 403;
@@ -286,7 +280,24 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
 
 //Delete a spot-----------------------------------------------------------------
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
-    
+    const id = parseInt(req.params.spotId);
+
+    const spot = await Spot.findByPk(id);
+
+    if(!spot){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        throw err;
+    }
+
+    if(spot.ownerId !== req.user.id){
+        const err = new Error('Forbidden');
+        err.status = 403;
+        throw err;
+    }
+
+    spot.destroy();
+    res.status(200).json({message: 'Successfully deleted'});
 });
 
 //Get all reviews by spot id----------------------------------------------------
