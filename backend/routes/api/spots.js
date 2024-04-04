@@ -208,11 +208,9 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 });
 
 //Edit a spot-------------------------------------------------------------------
-//add ownerId
 router.put('/:spotId', requireAuth, async (req, res, next) => {
 
     const id = parseInt(req.params.spotId);
-    const ownerId = req.user.id;
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
 
     const err = new Error('Bad Request');
@@ -265,6 +263,11 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
 
     //if spot owner id === current user id
     //else error 403 w/ message
+    if(spot.ownerId !== req.user.id){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        throw err;
+    };
 
     await spot.update({
         address,
