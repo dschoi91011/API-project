@@ -10,6 +10,7 @@ const {handleValidationErrors} = require('../../utils/validation');
 const router = express.Router();
 
 //Get all reviews of current user-------------------------------------------
+//clarify spotimage, fix if necessary
 router.get('/current', requireAuth, async (req, res, next) => {
     const {user} = req;
     const allReviews = await Review.findAll({

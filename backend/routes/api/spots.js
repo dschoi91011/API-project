@@ -195,7 +195,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     //if spot owner id === current user id
     //else error 403 w/ message
     if(spot.ownerId !== req.user.id){
-        const err = new Error("Forbidden");
+        const err = new Error('Forbidden');
         err.status = 403;
         throw err;
     };
@@ -264,7 +264,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     //if spot owner id === current user id
     //else error 403 w/ message
     if(spot.ownerId !== req.user.id){
-        const err = new Error("Forbidden");
+        const err = new Error('Forbidden');
         err.status = 403;
         throw err;
     };
@@ -316,12 +316,38 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 });
 
 //Create review for spot based on spot id---------------------------------------
+//FInish error conditionals
 router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
-    const id = req.params.spotId;
+    const id = parseInt(req.params.spotId);
     const {review, stars} = req.body;
 
+    const spot = await Spot.findByPk(id);
+    if(!spot){
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        throw err;
+    };
 
-})
+    //check to see if review from current user already exists for spot
+
+    const err = new Error('Bad Request');
+    err.status = 400;
+    err.errors = {};
+    if(!review){
+        err.errors.review = 'Review text is required';
+        throw err;
+    };
+    if(stars < 1 || stars > 5){
+        err.errors.stars = 'Stars must be an integer from 1 to 5';
+        throw err;
+    };
+
+    const newReview = await Review.create({
+        userId: req.user.id, spotId: id, review: review, stars: stars
+    });
+
+    res.status(201).json(newReview);
+});
 
 
 module.exports = router;
