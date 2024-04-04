@@ -10,7 +10,6 @@ const {handleValidationErrors} = require('../../utils/validation');
 const router = express.Router();
 
 //Get all reviews of current user-------------------------------------------
-//Extract previewImage
 router.get('/current', requireAuth, async (req, res, next) => {
     const {user} = req;
     const allReviews = await Review.findAll({
@@ -32,9 +31,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
                     'lat',
                     'lng',
                     'name',
-                    'price',
-                    //previewImage
-                ]
+                    'price'
+                ],
+                include: SpotImage
             },
             {
                 model: ReviewImage,
@@ -43,9 +42,22 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ]
     });
 
-    res.json({Reviews: allReviews});
+    const arr = [];
+    allReviews.forEach(ele => {
+        const spotBody = ele.toJSON();
+        // console.log(spotBody.Spot.SpotImages)
+        const objArr = spotBody.Spot.SpotImages;
+
+        if(objArr[0]) spotBody.Spot.previewImage = objArr[0].url
+        if(!objArr[0]) spotBody.Spot.previewImage = 'Does not exist'
+
+        delete spotBody.Spot.SpotImages;
+        arr.push(spotBody);
+    });
+
+    console.log(arr);
+    res.json({Reviews: arr});
 });
 
-//test comment
 
 module.exports = router;
