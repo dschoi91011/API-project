@@ -12,6 +12,14 @@ module.exports = {
       {
         reviewId: 1,
         url: 'someimage.com'
+      },
+      {
+        reviewId: 2,
+        url: 'review img url'
+      },
+      {
+        reviewId: 1,
+        url: 'review img test url'
       }
     ])
   },
