@@ -56,7 +56,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
         arr.push(spotBody);
     });
 
-    console.log(arr);
     res.json({Reviews: arr});
 });
 

@@ -328,7 +328,14 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
         throw err;
     };
 
-    //check to see if review from current user already exists for spot
+    const checkReview = await Review.findOne({
+        where: {spotId: id, userId: req.user.id}
+    });
+    if(checkReview){
+        const err = new Error('User already has a review for this spot');
+        err.status = 500;
+        throw err;
+    };
 
     const err = new Error('Bad Request');
     err.status = 400;
