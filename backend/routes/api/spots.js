@@ -259,7 +259,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
         const err = new Error("Spot couldn't be found")
         err.status = 404;
         throw err;
-    }
+    };
 
     //if spot owner id === current user id
     //else error 403 w/ message
@@ -279,9 +279,9 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
         name,
         description,
         price
-    })
+    });
 
-    res.json(spot)
+    res.json(spot);
 });
 
 //Delete a spot-----------------------------------------------------------------
@@ -316,7 +316,6 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 });
 
 //Create review for spot based on spot id---------------------------------------
-//FInish error conditionals
 router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.spotId);
     const {review, stars} = req.body;
