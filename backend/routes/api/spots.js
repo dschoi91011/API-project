@@ -117,7 +117,9 @@ router.get('/:spotId', async (req, res, next) => {
     })
 
     if(!spot){
-       return res.status(404).json({message: "Spot couldn't be found"});
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        throw err;
     }
 
     res.json(spot)
@@ -180,26 +182,27 @@ router.post('/', requireAuth, async (req, res, next) => {
 //Check authorization
 //Not posting to Spot / images
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
-    const spotId = req.params.spotId;
+    const id = parseInt(req.params.spotId);
     const {url, preview} = req.body;
     
-    const spot = await Spot.findOne(req.user.spotId)
+    const spot = await Spot.findByPk(id)
     if(!spot){
-        return res.status(404).json({message: "Spot couldn't be found"})  
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        throw err;
     };
 
     //if spot owner id === current user id
     //else error 403 w/ message
-    if(Spot.ownerId !== req.user.id){
-        const err = new Error();
-        err.status(403).json({message: 'Forbidden'});
-    }
+    if(spot.ownerId !== req.user.id){
+        const err = new Error("Forbidden");
+        err.status = 403;
+        throw err;
+    };
 
     const addedImg = await SpotImage.create({
-        url, preview
+        spotId: id, url: url, preview: preview
     });
-
-    await spot.addSpotImages(addedImg)
 
     res.json(addedImg);
 });
@@ -208,7 +211,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 //add ownerId
 router.put('/:spotId', requireAuth, async (req, res, next) => {
 
-    const id = req.params.spotId;
+    const id = parseInt(req.params.spotId);
     const ownerId = req.user.id;
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
 
@@ -280,7 +283,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
 
 //Delete a spot-----------------------------------------------------------------
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
-
+    
 });
 
 //Get all reviews by spot id----------------------------------------------------
@@ -309,6 +312,13 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     res.json({Reviews: allReviews});
 });
 
+//Create review for spot based on spot id---------------------------------------
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
+    const id = req.params.spotId;
+    const {review, stars} = req.body;
+
+
+})
 
 
 module.exports = router;
