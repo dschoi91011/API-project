@@ -46,11 +46,17 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const arr = [];
     allReviews.forEach(ele => {
         const spotBody = ele.toJSON();
-        // console.log(spotBody.Spot.SpotImages)
-        const objArr = spotBody.Spot.SpotImages;
+        console.log(spotBody)
+        const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+        const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+        spotBody.createdAt = cformat;
+        spotBody.updatedAt = uformat;
 
-        if(objArr[0]) spotBody.Spot.previewImage = objArr[0].url
-        if(!objArr[0]) spotBody.Spot.previewImage = 'Does not exist'
+        const objArr = spotBody.Spot.SpotImages;
+        for(let i = 0; i < objArr.length; i++){
+            if(objArr[i].url !== null) spotBody.Spot.previewImage = objArr[i].url
+            else spotBody.Spot.previewImage = 'Preview does not exist'
+        }
 
         delete spotBody.Spot.SpotImages;
         arr.push(spotBody);
@@ -89,7 +95,10 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     }
 
     const newImg = await ReviewImage.create({reviewId: review.id, url: url});
-    res.status(200).json(newImg);
+    
+    const payload = {id: newImg.id, url: newImg.url}
+
+    res.status(200).json(payload);
 });
 
 //Edit a review-------------------------------------------------------------
@@ -123,7 +132,14 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     if(Object.keys(err.errors).length) throw err;
 
     await rev.update({review, stars});
-    res.json(rev);
+
+    const revObj = rev.toJSON();
+
+    const cformat = revObj.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = revObj.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    revObj.createdAt = cformat;
+    revObj.updatedAt = uformat;
+    res.json(revObj);
 });
 
 //Delete a review---------------------------------------------------------------

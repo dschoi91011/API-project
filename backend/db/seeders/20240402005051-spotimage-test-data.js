@@ -28,6 +28,11 @@ module.exports = {
         spotId: 2,
         url: 'spotimage3.com',
         preview: true
+      },
+      {
+        spotId: 3,
+        url: 'url image 3',
+        preview: true
       }
     ]);
   },

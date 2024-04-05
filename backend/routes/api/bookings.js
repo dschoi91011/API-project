@@ -12,7 +12,7 @@ const {Op} = require('sequelize');
 const router = express.Router();
 
 //Get all the current user's bookings-----------------------------------------
-//Clarify / fix previewImage and booking dates
+//Clarify / fix previewImage
 router.get('/current', requireAuth, async (req, res, next) => {
     const allBookings = await Booking.findAll({
         where: {userId: req.user.id},
@@ -39,10 +39,23 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const arr = [];
     allBookings.forEach(ele => {
         const spotBody = ele.toJSON();
+
+        const sformat = spotBody.startDate.toISOString().split('T').join(' ').slice(0, 10);
+        const eformat = spotBody.endDate.toISOString().split('T').join(' ').slice(0, 10);
+        spotBody.startDate = sformat;
+        spotBody.endDate = eformat;
+    
+        const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+        const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+        spotBody.createdAt = cformat;
+        spotBody.updatedAt = uformat;
+
         const objArr = spotBody.Spot.SpotImages;
 
-        if(objArr[0]) spotBody.Spot.previewImage = objArr[0].url
-        if(!objArr[0]) spotBody.Spot.previewImage = 'Does not exist'
+        for(let i = 0; i < objArr.length; i++){
+            if(objArr[i].url !== null) spotBody.Spot.previewImage = objArr[i].url
+            else spotBody.Spot.previewImage = 'Preview does not exist'
+        }
 
         delete spotBody.Spot.SpotImages;
         arr.push(spotBody);
@@ -135,6 +148,9 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     await booking.update({
         spotId: Spot.id, userId: req.user.id, startDate, endDate
     });
+
+    
+
     res.status(200).json(booking);
 });
 

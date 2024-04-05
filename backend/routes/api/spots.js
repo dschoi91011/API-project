@@ -51,6 +51,12 @@ router.get('/', async (req, res, next) => {
         const spotBody = ele.toJSON();
         const reviewsArr = spotBody.Reviews;
 
+        const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+        const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+        
+        spotBody.createdAt = cformat;
+        spotBody.updatedAt = uformat;
+
         let sum = 0;
 
         if(reviewsArr && reviewsArr.length > 0){
@@ -95,6 +101,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
     allSpots.forEach(ele => {
         const spotBody = ele.toJSON();
         const reviewsArr = spotBody.Reviews;
+        
+        const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+        const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+        
+        spotBody.createdAt = cformat;
+        spotBody.updatedAt = uformat;
 
         let sum = 0;
 
@@ -156,6 +168,13 @@ router.get('/:spotId', async (req, res, next) => {
     const spotObj = spot.toJSON();
     const reviewsArr = spotObj.Reviews;
     spotObj.numReviews = reviewsArr.length;
+
+    const cformat = spotObj.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = spotObj.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    
+    spotObj.createdAt = cformat;
+    spotObj.updatedAt = uformat;
+
     let sum = 0;
 
     reviewsArr.forEach(ele => {
@@ -212,7 +231,15 @@ router.post('/', requireAuth, async (req, res, next) => {
         ownerId, address, city, state, country, lat, lng, name, description, price
     });
 
-    res.status(201).json(newSpot);
+    newSpotObj = newSpot.toJSON();
+
+    const cformat = newSpotObj.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = newSpotObj.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    
+    newSpotObj.createdAt = cformat;
+    newSpotObj.updatedAt = uformat;
+
+    res.status(201).json(newSpotObj);
 });
 
 //Add image to spot based on spot's id------------------------------------------
@@ -237,7 +264,9 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         spotId: id, url: url, preview: preview
     });
 
-    res.json(addedImg);     // remove id, spotId, updated/created from res???
+    const payload = {id: addedImg.id, url: addedImg.url, preview: addedImg.preview};
+
+    res.json(payload);
 });
 
 //Edit a spot-------------------------------------------------------------------
@@ -304,7 +333,15 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
         price
     });
 
-    res.json(spot);
+    spotObj = spot.toJSON();
+
+    const cformat = spotObj.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = spotObj.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    
+    spotObj.createdAt = cformat;
+    spotObj.updatedAt = uformat;
+
+    res.json(spotObj);
 });
 
 //Delete a spot-----------------------------------------------------------------
@@ -352,7 +389,21 @@ router.get('/:spotId/reviews', async (req, res, next) => {
             }
         ]
     });
-    res.json({Reviews: allReviews});
+
+    arr = [];
+    allReviews.forEach(ele => {
+        const rev = ele.toJSON();
+
+        const cformat = rev.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+        const uformat = rev.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+        
+        rev.createdAt = cformat;
+        rev.updatedAt = uformat;
+
+        arr.push(rev)
+    })
+
+    res.json({Reviews: arr});
 });
 
 //Create review for spot based on spot id---------------------------------------
@@ -391,7 +442,15 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
         userId: req.user.id, spotId: id, review: review, stars: stars
     });
 
-    res.status(201).json(newReview);
+    const revObj = newReview.toJSON();
+
+    const cformat = revObj.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = revObj.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    
+    revObj.createdAt = cformat;
+    revObj.updatedAt = uformat;
+
+    res.status(201).json(revObj);
 });
 
 //Get all bookings for a spot based on spot id-------------------------------
@@ -416,11 +475,16 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     });
 
     // console.log(allBookings)
-
     if(req.user.id !== spot.ownerId){
         const arr = [];
         allBookings.forEach(ele => {
             const bookingBody = ele.toJSON()
+            
+            const sformat = bookingBody.startDate.toISOString().split('T').join(' ').slice(0, 10);
+            const eformat = bookingBody.endDate.toISOString().split('T').join(' ').slice(0, 10);
+            bookingBody.startDate = sformat;
+            bookingBody.endDate = eformat;
+
             const obj = {
                 spotId: bookingBody.spotId,
                 startDate: bookingBody.startDate,
@@ -435,7 +499,17 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         const arr = [];
         allBookings.forEach(ele => {
             const bookingBody = ele.toJSON()
-            // console.log(bookingBody)
+
+            const sformat = bookingBody.startDate.toISOString().split('T').join(' ').slice(0, 10);
+            const eformat = bookingBody.endDate.toISOString().split('T').join(' ').slice(0, 10);
+            bookingBody.startDate = sformat;
+            bookingBody.endDate = eformat;
+
+            const cformat = bookingBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+            const uformat = bookingBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+            bookingBody.createdAt = cformat;
+            bookingBody.updatedAt = uformat;
+
             const obj = {
                 User: bookingBody.User,
                 id: bookingBody.id,
@@ -537,7 +611,20 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const newBooking = await Booking.create({
         spotId: id, userId: req.user.id, startDate, endDate
     });
-    res.status(200).json(newBooking);
+
+    const bk = newBooking.toJSON();
+
+    const sformat = bk.startDate.toISOString().split('T').join(' ').slice(0, 10);
+    const eformat = bk.endDate.toISOString().split('T').join(' ').slice(0, 10);
+    bk.startDate = sformat;
+    bk.endDate = eformat;
+
+    const cformat = bk.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = bk.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    bk.createdAt = cformat;
+    bk.updatedAt = uformat;
+
+    res.status(200).json(bk);
 });
 
 
