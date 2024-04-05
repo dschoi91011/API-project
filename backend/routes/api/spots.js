@@ -13,9 +13,18 @@ const router = express.Router();
 
 //Get all spots----------------------------------------------------------
 router.get('/', async (req, res, next) => {
+    let {page, size} = req.query;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if(isNaN(page) || page < 1 || page > 10) page = 1;
+    if(isNaN(size) || size < 1 || size > 20) size = 20;
 
     const allSpots = await Spot.findAll({
-        include: [Review, SpotImage]
+        include: [Review, SpotImage],
+        limit: size,
+        offset: size * (page - 1)
     });
 
     const arr = [];
@@ -52,7 +61,7 @@ router.get('/', async (req, res, next) => {
         arr.push(spotBody);
     });
 
-    res.json({Spots: arr});
+    res.json({Spots: arr, page, size});
 });
 
 //Get all spots owned by current user-----------------------------------------
