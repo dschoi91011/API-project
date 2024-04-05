@@ -18,8 +18,26 @@ router.get('/', async (req, res, next) => {
     page = parseInt(page);
     size = parseInt(size);
 
-    if(isNaN(page) || page < 1 || page > 10) page = 1;
-    if(isNaN(size) || size < 1 || size > 20) size = 20;
+    const err = new Error('Bad Request');
+    err.status = 400;
+    err.errors = {};
+
+    err.errors.maxLat = 'Maximum latitude is invalid';
+    err.errors.minLat = 'Minimum latitude is invalid';
+    err.errors.minLng = 'Maximum longitude is invalid';
+    err.errors.maxLng = 'Minimum longitude is invalid';
+    err.errors.minPrice = 'Minimum price must be greater than or equal to 0';
+    err.errors.maxPrice = 'Maximum price must be greater than or eqaul to 0';
+
+    if(isNaN(page) || page < 1 || page > 10){
+        err.errors.page = 'Page must be greater than or equal to 1';
+        page = 1;
+    }
+    if(isNaN(size) || size < 1 || size > 20){
+        err.errors.size = 'Size must be greater than or equal to 1';
+        size = 20;
+    };
+    if(Object.keys(err.errors).length > 6) throw err;
 
     const allSpots = await Spot.findAll({
         include: [Review, SpotImage],

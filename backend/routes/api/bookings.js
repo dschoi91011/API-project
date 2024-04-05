@@ -74,13 +74,14 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         throw err;
     }
 
-    if (myStartDate < currentDate &&
-        myStartDate < myEndDate &&
-        myEndDate <= currentDate){
-        const err = new Error("Past bookings can't be modified");
-        err.status = 403;
-        throw err;
-    }
+    // if (myStartDate < currentDate &&
+    //     myStartDate < myEndDate &&
+    //     myEndDate <= currentDate){
+    //     const err = new Error("Past bookings can't be modified");
+    //     err.status = 403;
+    //     throw err;
+    // }
+    console.log(booking.dataValues.startDate.toISOString())
 
     const err = new Error('Bad Request');
     err.status = 400;
@@ -127,7 +128,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         throw err2;
     }
     if(myStartDate <= exStartDate && myEndDate >= exEndDate){
-        err2.errors.dateRange = 'Date range overlaps existing one';
+        err2.errors.dateRange = 'Start and end dates conflict with an existing booking';
         throw err2;
     }
 

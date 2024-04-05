@@ -12,13 +12,17 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: 'spotimage.com',
+        url: 'url image',
         preview: true
       },
       {
         spotId: 1,
         url: 'spotimage2.com',
         preview: false
+      },
+      {
+        spotId: 1,
+        url: 'url image2'
       },
       {
         spotId: 2,

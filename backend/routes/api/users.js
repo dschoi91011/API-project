@@ -34,32 +34,9 @@ const validateSignup = [
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'), //???
+    .withMessage('Password must be 6 characters or more.'), 
   handleValidationErrors
 ];
-
-
-// Sign up --- PHASE 4
-// router.post(
-//     '/',
-//     async (req, res) => {
-//       const { email, password, username } = req.body;
-//       const hashedPassword = bcrypt.hashSync(password);
-//       const user = await User.create({ email, username, hashedPassword });
-  
-//       const safeUser = {
-//         id: user.id,
-//         email: user.email,
-//         username: user.username,
-//       };
-  
-//       await setTokenCookie(res, safeUser);
-  
-//       return res.json({
-//         user: safeUser
-//       });
-//     }
-//   );
 
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
@@ -72,13 +49,6 @@ router.post('/', validateSignup, async (req, res) => {
     const existingEmail = await User.findOne({
       where: {email}
     });
-
-    // if(existingUser){
-    //   const err = new Error('User already exists');
-    //   err.status = 500;
-    //   err.errors = 'User with that username already exists';
-    //   throw err;
-    // }
 
     if(existingUser || existingEmail){
       const err = new Error('User already exists')

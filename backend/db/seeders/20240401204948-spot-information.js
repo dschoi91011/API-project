@@ -58,6 +58,18 @@ module.exports = {
         description: 'Place where web developers are created',
         price: 200
       },
+      {
+        ownerId: 2,
+        address: '4332 Other Lane',
+        city: 'San Francisco',
+        state: 'California',
+        country: 'United States of America',
+        lat: 77.7645358,
+        lng: -128.4730327,
+        name: 'App Academy',
+        description: 'Place where web developers are created',
+        price: 1000
+      }
     ])
   },
 

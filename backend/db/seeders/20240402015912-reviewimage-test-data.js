@@ -11,7 +11,7 @@ module.exports = {
     await ReviewImage.bulkCreate([
       {
         reviewId: 1,
-        url: 'someimage.com'
+        url: 'img url'
       },
       {
         reviewId: 2,
