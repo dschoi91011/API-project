@@ -145,6 +145,7 @@ router.get('/:spotId', async (req, res, next) => {
     });        
     
     spotObj.avgStarRating = sum / reviewsArr.length;
+    //if !reviewsArr.length spotObj.avgStarRating = 'No ratings available'
 
     delete spotObj.Reviews;
 
