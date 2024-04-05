@@ -13,7 +13,9 @@ const router = express.Router();
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.imageId);
 
-    const revImg = await ReviewImage.findByPk(id);
+    const revImg = await ReviewImage.findByPk(id, {
+        include: Review
+    });
 
     if(!revImg){
         const err = new Error("Review Image couldn't be found");
@@ -21,12 +23,12 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         throw err;
     }
 
-    if(revImg.reviewId !== req.user.id){
+    if(req.user.id !== revImg.Review.userId){
         const err = new Error('Forbidden');
         err.status = 403;
         throw err;
     }
-
+    //await
     revImg.destroy();
     res.status(200).json({message: 'Successfully deleted'});
 })
