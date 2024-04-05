@@ -22,15 +22,11 @@ router.get('/', async (req, res, next) => {
     err.status = 400;
     err.errors = {};
 
-    if(isNaN(page) || page < 1 || page > 10){
-        err.errors.page = 'Page must be greater than or equal to 1';
-        page = 1;
-    }
-    if(isNaN(size) || size < 1 || size > 20){
-        err.errors.size = 'Size must be greater than or equal to 1';
-        size = 20;
-    };
-    // if(Object.keys(err.errors).length) throw err;
+    if(isNaN(page) || !page || page > 10) page = 1;
+    if(isNaN(size) || !size || size > 20) size = 20;
+    if(page < 1) err.errors.page = 'Page must be greater than or equal to 1';
+    if(size < 1) err.errors.size = 'Size must be greater than or equal to 1';
+    if(Object.keys(err.errors).length) throw err;
 
     const allSpots = await Spot.findAll({
         include: [Review, SpotImage],
