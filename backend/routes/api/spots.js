@@ -56,7 +56,7 @@ router.get('/', async (req, res, next) => {
 });
 
 //Get all spots owned by current user-----------------------------------------
-//Review 'const {user} = req
+//Review 'const {user} = req / //where is req.user coming from?
 router.get('/current', requireAuth, async (req, res, next) => {
     const allSpots = await Spot.findAll({
         where: {ownerId: req.user.id},
@@ -112,9 +112,13 @@ router.get('/:spotId', async (req, res, next) => {
                 model: User,
                 as: 'Owner',
                 attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Review,
+                attributes: ['stars']
             }
         ]
-    })
+    });
 
     if(!spot){
         const err = new Error("Spot couldn't be found");
@@ -122,11 +126,23 @@ router.get('/:spotId', async (req, res, next) => {
         throw err;
     }
 
-    res.json(spot)
+    const spotObj = spot.toJSON();
+    const reviewsArr = spotObj.Reviews;
+    spotObj.numReviews = reviewsArr.length;
+    let sum = 0;
+
+    reviewsArr.forEach(ele => {
+        sum += ele.stars;
+    });        
+    
+    spotObj.avgStarRating = sum / reviewsArr.length;
+
+    delete spotObj.Reviews;
+
+    res.json(spotObj);
 });
 
 //Create a spot-----------------------------------------------------------------
-//where is req.user coming from?
 router.post('/', requireAuth, async (req, res, next) => {
 
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
@@ -134,43 +150,36 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     const err = new Error('Bad Request');
     err.status = 400;
-    err.errors ={};
+    err.errors = {};
     if(!address){
         err.errors.address = 'Street address is required';
-        throw err;
     }
     if(!city){
         err.errors.city = 'City is required';
-        throw err;
     }
     if(!state){
         err.errors.state = 'State is required';
-        throw err;
     }
     if(!country){
         err.errors.country = 'Country is required';
     }
     if(lat < -90 || lat > 90){
         err.errors.lat = 'Latitude must be within -90 and 90';
-        throw err;
     }
     if(lng < -180 || lng > 180){
         err.errors.lng = 'Longitude must be within -180 and 180';
-        throw err;
     }
     if(name.length >= 50){
         err.errors.name = 'Name must be less than 50 characters';
-        throw err;
     }
     if(!description){
         err.errors.description = 'Description is required';
-        throw err;
     }
     if(price <= 0){
         err.errors.price = 'Price per day must be a positive number';
-        throw err;
     }
-
+    if(err.errors) throw err;
+    
     const newSpot = await Spot.create({
         ownerId, address, city, state, country, lat, lng, name, description, price
     });
@@ -200,7 +209,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         spotId: id, url: url, preview: preview
     });
 
-    res.json(addedImg);
+    res.json(addedImg);     // remove id, spotId, updated/created from res???
 });
 
 //Edit a spot-------------------------------------------------------------------
