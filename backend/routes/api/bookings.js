@@ -149,9 +149,18 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         spotId: Spot.id, userId: req.user.id, startDate, endDate
     });
 
-    
+    const bk = booking.toJSON();
+    const sformat = bk.startDate.toISOString().split('T').join(' ').slice(0, 10);
+    const eformat = bk.endDate.toISOString().split('T').join(' ').slice(0, 10);
+    bk.startDate = sformat;
+    bk.endDate = eformat;
 
-    res.status(200).json(booking);
+    const cformat = bk.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+    const uformat = bk.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+    bk.createdAt = cformat;
+    bk.updatedAt = uformat;
+
+    res.status(200).json(bk);
 });
 
 //Delete booking--------------------------------------------------------------
