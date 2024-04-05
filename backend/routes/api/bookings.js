@@ -57,9 +57,11 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.bookingId);
     const {startDate, endDate} = req.body;
 
-    const booking = await Booking.findByPk(id, {
-        include: Spot
-    });
+    const myStartDate = startDate.split('-').join('');
+    const myEndDate = endDate.split('-').join('');
+    const currentDate = new Date().toISOString().split('T')[0].split('-').join('');
+    
+    const booking = await Booking.findByPk(id);
 
     if(!booking){
         const err = new Error("Booking couldn't be found");
@@ -71,6 +73,56 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         const err = new Error('Forbidden');
         err.status = 403;
         throw err;
+    }
+
+    if (myStartDate < currentDate &&
+        myStartDate < myEndDate &&
+        myEndDate <= currentDate){
+        const err = new Error("Past bookings can't be modified");
+        err.status = 403;
+        throw err;
+    }
+
+    const err = new Error('Bad Request');
+    err.status = 400;
+    err.errors = {};
+    if(myEndDate <= myStartDate){
+        err.errors.endDate = 'endDate cannot be on or before startDate';
+        throw err;
+    }
+    if(myStartDate < currentDate){
+        err.errors.startDate = 'startDate cannot be in the past';
+        throw err;
+    }
+
+    const err2 = new Error('Sorry, this spot is already booked for the specified dates');
+    err2.status = 403;
+    err2.errors = {};
+
+    bookingObj = booking.toJSON();
+    const exStartDate = (bookingObj.startDate.toISOString().split('T'))[0].split('-').join('');
+    const exEndDate = (bookingObj.endDate.toISOString().split('T'))[0].split('-').join('');
+    console.log('----------------------', exStartDate, exEndDate)
+
+    if(myStartDate === exStartDate){
+        err2.errors.startDate = 'Start date conflicts with an existing booking';
+        throw err2;
+    }
+    if(myEndDate === exEndDate){
+        err2.errors.endDate = 'End date conflicts with an existing booking';
+        throw err2;
+    }
+    if(myStartDate > exStartDate && myStartDate < exEndDate){
+        err2.errors.startDate = 'Start date conflicts with an existing booking';
+        throw err2;
+    }
+    if(myEndDate > exStartDate && myEndDate < exEndDate){
+        err2.errors.endDate = 'End date conflicts with an existing booking';
+        throw err2;
+    }
+    if(myStartDate <= exStartDate && myEndDate >= exEndDate){
+        err2.errors.dateRange = 'Date range overlaps existing one';
+        throw err2;
     }
 
     await booking.update({
@@ -85,19 +137,19 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
 
     const booking = await Booking.findByPk(id);
 
-    const startDateArr = booking.toJSON().startDate.toISOString().split('T');
-    strStartDate = startDateArr[0].split('-').join('');
-
-    const todayArr = new Date().toISOString().split('T');
-    const strToday = todayArr[0].split('-').join('');
-
     if(!booking){
         const err = new Error("Booking couldn't be found");
         err.status = 404;
         throw err;
     }
 
-    if(strToday > strStartDate){
+    const startDateArr = booking.toJSON().startDate.toISOString().split('T');
+    myStartDate = startDateArr[0].split('-').join('');
+
+    const todayArr = new Date().toISOString().split('T');
+    const currentDate = todayArr[0].split('-').join('');
+
+    if(currentDate > myStartDate){
         const err = new Error("Bookings that have been started can't be deleted");
         err.status = 403;
         throw err;
