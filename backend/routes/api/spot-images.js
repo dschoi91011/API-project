@@ -21,7 +21,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         throw err;
     }
 
-    if(spotImg.spotId !== req.user.id){
+    if(req.user.id !== spotImg.spotId){
         const err = new Error('Forbidden');
         err.status = 403;
         throw err;

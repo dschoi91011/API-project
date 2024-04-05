@@ -7,15 +7,14 @@ const {User, Spot, Booking, Review, ReviewImage, SpotImage} = require('../../db/
 const {check} = require('express-validator');
 const {handleValidationErrors} = require('../../utils/validation');
 
-const {Op} = require('sequelize');
-
 const router = express.Router();
 
 //Get all reviews of current user-------------------------------------------
 //clarify spotimage, fix if necessary
 router.get('/current', requireAuth, async (req, res, next) => {
+    const {user} = req;
     const allReviews = await Review.findAll({
-        where: {userId: req.user.id},
+        where: {userId: user.id},
         include: [
             {
                 model: User,
@@ -117,12 +116,11 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     err.errors = {};
     if(!review){
         err.errors.review = 'Review text is required';
-        throw err;
     }
     if(stars < 1 || stars > 5){
         err.errors.stars = 'Stars must be an integer from 1 to 5';
-        throw err;
     }
+    if(Object.keys(err.errors).length) throw err;
 
     await rev.update({review, stars});
     res.json(rev);

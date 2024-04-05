@@ -101,21 +101,28 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     bookingObj = booking.toJSON();
     const exStartDate = (bookingObj.startDate.toISOString().split('T'))[0].split('-').join('');
     const exEndDate = (bookingObj.endDate.toISOString().split('T'))[0].split('-').join('');
-    console.log('----------------------', exStartDate, exEndDate)
 
-    if(myStartDate === exStartDate){
+    // if(myStartDate === exStartDate){
+    //     err2.errors.startDate = 'Start date conflicts with an existing booking';
+    //     throw err2;
+    // }
+    // if(myEndDate === exEndDate){
+    //     err2.errors.endDate = 'End date conflicts with an existing booking';
+    //     throw err2;
+    // }
+    if(myStartDate === exEndDate){
         err2.errors.startDate = 'Start date conflicts with an existing booking';
         throw err2;
     }
-    if(myEndDate === exEndDate){
+    if(myEndDate === exStartDate){
         err2.errors.endDate = 'End date conflicts with an existing booking';
         throw err2;
     }
-    if(myStartDate > exStartDate && myStartDate < exEndDate){
+    if(myStartDate >= exStartDate && myStartDate <= exEndDate){
         err2.errors.startDate = 'Start date conflicts with an existing booking';
         throw err2;
     }
-    if(myEndDate > exStartDate && myEndDate < exEndDate){
+    if(myEndDate >= exStartDate && myEndDate <= exEndDate){
         err2.errors.endDate = 'End date conflicts with an existing booking';
         throw err2;
     }
@@ -139,6 +146,12 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     if(!booking){
         const err = new Error("Booking couldn't be found");
         err.status = 404;
+        throw err;
+    }
+
+    if(req.user.id !== booking.userId){
+        const err = new Error('Forbidden');
+        err.status = 403;
         throw err;
     }
 

@@ -178,7 +178,7 @@ router.post('/', requireAuth, async (req, res, next) => {
     if(price <= 0){
         err.errors.price = 'Price per day must be a positive number';
     }
-    if(err.errors) throw err;
+    if(Object.keys(err.errors).length) throw err;
     
     const newSpot = await Spot.create({
         ownerId, address, city, state, country, lat, lng, name, description, price
@@ -223,40 +223,32 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     err.errors ={};
     if(!address){
         err.errors.address = 'Street address is required';
-        throw err;
     }
     if(!city){
         err.errors.city = 'City is required';
-        throw err;
     }
     if(!state){
         err.errors.state = 'State is required';
-        throw err;
     }
     if(!country){
         err.errors.country = 'Country is required';
-        throw err;
     }
     if(lat < -90 || lat > 90){
         err.errors.lat = 'Latitude must be within -90 and 90';
-        throw err;
     }
     if(lng < -180 || lng > 180){
         err.errors.lng = 'Longitude must be within -180 and 180';
-        throw err;
     }
     if(name.length >= 50){
         err.errors.name = 'Name must be less than 50 characters';
-        throw err;
     }
     if(!description){
         err.errors.description = 'Description is required';
-        throw err;
     }
     if(price <= 0){
         err.errors.price = 'Price per day must be a positive number';
-        throw err;
     }
+    if(Object.keys(err.errors).length) throw err;
 
     const spot = await Spot.findByPk(id);
 
@@ -361,12 +353,11 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     err.errors = {};
     if(!review){
         err.errors.review = 'Review text is required';
-        throw err;
     };
     if(stars < 1 || stars > 5){
         err.errors.stars = 'Stars must be an integer from 1 to 5';
-        throw err;
     };
+    if(Object.keys(err.errors).length) throw err;
 
     const newReview = await Review.create({
         userId: req.user.id, spotId: id, review: review, stars: stars
@@ -434,7 +425,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 });
 
 //Create booking from a spot based on spot id---------------------------------
-//CHECK last condition of last error (not included in README)
 router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.spotId);
     const {startDate, endDate} = req.body;
@@ -492,6 +482,14 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
         if(myEndDate === exEndDate){
             err2.errors.endDate = 'End date conflicts with an existing booking';
+            throw err2;
+        }
+        if(myStartDate === exEndDate){
+            err2.errors.startDate = 'Start date conflicts with an existing booking';
+            throw err2;
+        }
+        if(myEndDate === exStartDate){
+            err2.errors.startDate = 'End date conflicts with an existing booking';
             throw err2;
         }
         if(myStartDate > exStartDate && myStartDate < exEndDate){
