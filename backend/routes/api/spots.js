@@ -563,7 +563,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     err2.errors = {};
 
     spotBookings = spot.toJSON().Bookings;
-    // console.log(spotBookings)
+
     spotBookings.forEach(ele => {
         const exStartDate = (ele.startDate.toISOString().split('T'))[0].split('-').join('');
         const exEndDate = (ele.endDate.toISOString().split('T'))[0].split('-').join('');

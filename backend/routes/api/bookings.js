@@ -74,6 +74,8 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const currentDate = new Date().toISOString().split('T')[0].split('-').join('');
     
     const booking = await Booking.findByPk(id);
+    const allBookings = await Booking.findAll();
+
 
     if(!booking){
         const err = new Error("Booking couldn't be found");
@@ -87,22 +89,29 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         throw err;
     }
 
-    bookingObj = booking.toJSON();
-    const exStartDate = (bookingObj.startDate.toISOString().split('T'))[0].split('-').join('');
-    const exEndDate = (bookingObj.endDate.toISOString().split('T'))[0].split('-').join('');
+    const bookingObj = booking.toJSON();
     
     const err = new Error("Sorry, this spot is already booked for the specified dates");
     err.status = 403;
     err.errors = {};
-    if(myStartDate === exStartDate) err.errors.startDate = "Start date conflicts with an existing booking";
-    if(myStartDate === exEndDate) err.errors.startDate = "Start date conflicts with an existing booking";
-    if(myEndDate === exStartDate) err.errors.endDate = "End date conflicts with an existing booking";
-    if(myEndDate === exEndDate) err.errors.endDate = "End daet conflicts with an existing booking";
-    if(myStartDate > exStartDate && myStartDate < exEndDate) err.errors.startDate = "Start date conflicts with an existing booking";
-    if(myEndDate > exStartDate && myEndDate < exEndDate) err.errors.endDate = "End date conflicts with an existing booking";
-    if(myStartDate > exStartDate && myEndDate < exEndDate) err.errors.startDate = "Start and end dates conflict with existing booking";
-    if(myStartDate < exStartDate && myEndDate > exEndDate) err.errors.startDaet = "Start and end dates conflict with existing booking";
-    if(Object.keys(err.errors).length) throw err;
+
+    allBookings.forEach(ele => {
+
+        const exStartDate = (ele.startDate.toISOString().split('T'))[0].split('-').join('');
+        const exEndDate = (ele.endDate.toISOString().split('T'))[0].split('-').join('');
+
+        if(ele.id !== bookingObj.id){
+            if(myStartDate === exStartDate) err.errors.startDate = "Start date conflicts with an existing booking";
+            if(myStartDate === exEndDate) err.errors.startDate = "Start date conflicts with an existing booking";
+            if(myEndDate === exStartDate) err.errors.endDate = "End date conflicts with an existing booking";
+            if(myEndDate === exEndDate) err.errors.endDate = "End date conflicts with an existing booking";
+            if(myStartDate > exStartDate && myStartDate < exEndDate) err.errors.startDate = "Start date conflicts with an existing booking";
+            if(myEndDate > exStartDate && myEndDate < exEndDate) err.errors.endDate = "End date conflicts with an existing booking";
+            if(myStartDate > exStartDate && myEndDate < exEndDate) err.errors.startDate = "Start and end dates conflict with existing booking";
+            if(myStartDate < exStartDate && myEndDate > exEndDate) err.errors.startDaet = "Start and end dates conflict with existing booking";
+            if(Object.keys(err.errors).length) throw err;
+        }
+    });
 
     if(currentDate > myStartDate){
         const err = new Error("startDate cannot be in the past");
