@@ -57,11 +57,26 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.bookingId);
     const {startDate, endDate} = req.body;
 
-    const booking = await Booking.findByPk(id);
+    const booking = await Booking.findByPk(id, {
+        include: Spot
+    });
+
+    if(!booking){
+        const err = new Error("Booking couldn't be found");
+        err.status = 404;
+        throw err;
+    }
+
+    if(req.user.id !== booking.userId){
+        const err = new Error('Forbidden');
+        err.status = 403;
+        throw err;
+    }
 
     await booking.update({
-
-    })
+        spotId: Spot.id, userId: req.user.id, startDate, endDate
+    });
+    res.status(200).json(booking);
 });
 
 //Delete booking--------------------------------------------------------------
