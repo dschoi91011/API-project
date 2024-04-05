@@ -70,7 +70,6 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.reviewId);
     const {url} = req.body;
 
-    //if current req.user.id !== review.userId
     const review = await Review.findByPk(id);
 
     if(!review){
@@ -96,7 +95,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 
     const newImg = await ReviewImage.create({reviewId: review.id, url: url});
     
-    const payload = {id: newImg.id, url: newImg.url}
+    const payload = {id: newImg.id, url: newImg.url};
 
     res.status(200).json(payload);
 });
