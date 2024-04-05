@@ -46,6 +46,18 @@ module.exports = {
         description: 'Test data 3',
         price: 200
       },
+      {
+        ownerId: 1,
+        address: '1111 Test Ln',
+        city: 'San Francisco',
+        state: 'California',
+        country: 'United States of America',
+        lat: 44.7645358,
+        lng: -102.4730327,
+        name: 'App Academy',
+        description: 'Place where web developers are created',
+        price: 200
+      },
     ])
   },
 

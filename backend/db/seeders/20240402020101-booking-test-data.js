@@ -10,16 +10,28 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Booking.bulkCreate([
       {
-        spotId: 1,
+        spotId: 3,
         userId: 1,
         startDate: '2024-05-10',
         endDate: '2024-05-13'
       },
       {
-        spotId: 2,
+        spotId: 1,
         userId: 2,
         startDate: '2024-05-12',
         endDate: '2024-05-14'
+      },
+      {
+        spotId: 2,
+        userId: 1,
+        startDate: '2024-06-19',
+        endDate: '2024-06-20'
+      },
+      {
+        spotId: 3,
+        userId: 1,
+        startDate: '2022-01-02',
+        endDate:'2023-03-23'
       }
     ]);
   },

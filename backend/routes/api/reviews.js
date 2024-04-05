@@ -7,14 +7,15 @@ const {User, Spot, Booking, Review, ReviewImage, SpotImage} = require('../../db/
 const {check} = require('express-validator');
 const {handleValidationErrors} = require('../../utils/validation');
 
+const {Op} = require('sequelize');
+
 const router = express.Router();
 
 //Get all reviews of current user-------------------------------------------
 //clarify spotimage, fix if necessary
 router.get('/current', requireAuth, async (req, res, next) => {
-    const {user} = req;
     const allReviews = await Review.findAll({
-        where: {userId: user.id},
+        where: {userId: req.user.id},
         include: [
             {
                 model: User,
