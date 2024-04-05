@@ -52,7 +52,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
 });
 
 //Edit booking----------------------------------------------------------------
-//NOT COMPLETE
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.bookingId);
     const {startDate, endDate} = req.body;
