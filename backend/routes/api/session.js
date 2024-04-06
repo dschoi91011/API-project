@@ -11,7 +11,6 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-
 const validateLogin = [
 
   check('credential')
@@ -25,7 +24,6 @@ const validateLogin = [
     
   handleValidationErrors
 ];
-
 
 // Log in
 router.post(
@@ -67,7 +65,6 @@ router.post(
   }
 );
 
-
 // Log out
 router.delete(
     '/',
@@ -76,7 +73,6 @@ router.delete(
       return res.json({ message: 'success' });
     }
 );
-
 
 // Restore session user
 router.get(

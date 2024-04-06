@@ -32,7 +32,6 @@ const setTokenCookie = (res, user) => {
     return token;
 };
 
-
 const restoreUser = (req, res, next) => {
     // token parsed from cookies
     const { token } = req.cookies;
@@ -60,7 +59,6 @@ const restoreUser = (req, res, next) => {
         return next();
     });
 };
-
 
   // If there is no current user, return an error
 const requireAuth = function (req, _res, next) {
