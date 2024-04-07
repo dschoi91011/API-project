@@ -187,33 +187,15 @@ router.post('/', requireAuth, async (req, res, next) => {
     const err = new Error('Bad Request');
     err.status = 400;
     err.errors = {};
-    if(!address){
-        err.errors.address = 'Street address is required';
-    }
-    if(!city){
-        err.errors.city = 'City is required';
-    }
-    if(!state){
-        err.errors.state = 'State is required';
-    }
-    if(!country){
-        err.errors.country = 'Country is required';
-    }
-    if(lat < -90 || lat > 90){
-        err.errors.lat = 'Latitude must be within -90 and 90';
-    }
-    if(lng < -180 || lng > 180){
-        err.errors.lng = 'Longitude must be within -180 and 180';
-    }
-    if(name.length >= 50){
-        err.errors.name = 'Name must be less than 50 characters';
-    }
-    if(!description){
-        err.errors.description = 'Description is required';
-    }
-    if(price <= 0){
-        err.errors.price = 'Price per day must be a positive number';
-    }
+    if(!address) err.errors.address = 'Street address is required';
+    if(!city) err.errors.city = 'City is required';
+    if(!state) err.errors.state = 'State is required';
+    if(!country) err.errors.country = 'Country is required';
+    if(lat < -90 || lat > 90) err.errors.lat = 'Latitude must be within -90 and 90';
+    if(lng < -180 || lng > 180) err.errors.lng = 'Longitude must be within -180 and 180';
+    if(name.length >= 50) err.errors.name = 'Name must be less than 50 characters';
+    if(!description) err.errors.description = 'Description is required';
+    if(price <= 0) err.errors.price = 'Price per day must be a positive number';
     if(Object.keys(err.errors).length) throw err;
     
     const newSpot = await Spot.create({
@@ -267,33 +249,15 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     const err = new Error('Bad Request');
     err.status = 400;
     err.errors ={};
-    if(!address){
-        err.errors.address = 'Street address is required';
-    }
-    if(!city){
-        err.errors.city = 'City is required';
-    }
-    if(!state){
-        err.errors.state = 'State is required';
-    }
-    if(!country){
-        err.errors.country = 'Country is required';
-    }
-    if(lat < -90 || lat > 90){
-        err.errors.lat = 'Latitude must be within -90 and 90';
-    }
-    if(lng < -180 || lng > 180){
-        err.errors.lng = 'Longitude must be within -180 and 180';
-    }
-    if(name.length >= 50){
-        err.errors.name = 'Name must be less than 50 characters';
-    }
-    if(!description){
-        err.errors.description = 'Description is required';
-    }
-    if(price <= 0){
-        err.errors.price = 'Price per day must be a positive number';
-    }
+    if(!address) err.errors.address = 'Street address is required';
+    if(!city) err.errors.city = 'City is required';
+    if(!state) err.errors.state = 'State is required';
+    if(!country) err.errors.country = 'Country is required';
+    if(lat < -90 || lat > 90) err.errors.lat = 'Latitude must be within -90 and 90';
+    if(lng < -180 || lng > 180) err.errors.lng = 'Longitude must be within -180 and 180';
+    if(name.length >= 50) err.errors.name = 'Name must be less than 50 characters';
+    if(!description) err.errors.description = 'Description is required';
+    if(price <= 0) err.errors.price = 'Price per day must be a positive number';
     if(Object.keys(err.errors).length) throw err;
 
     const spot = await Spot.findByPk(id);
@@ -419,12 +383,8 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const err = new Error('Bad Request');
     err.status = 400;
     err.errors = {};
-    if(!review){
-        err.errors.review = 'Review text is required';
-    };
-    if(stars < 1 || stars > 5){
-        err.errors.stars = 'Stars must be an integer from 1 to 5';
-    };
+    if(!review) err.errors.review = 'Review text is required';
+    if(stars < 1 || stars > 5) err.errors.stars = 'Stars must be an integer from 1 to 5';
     if(Object.keys(err.errors).length) throw err;
 
     const newReview = await Review.create({
@@ -549,52 +509,28 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const err = new Error('Bad Request');
     err.status = 400;
     err.errors = {};
-    if(myStartDate < currentDate){
-        err.errors.startDate = 'startDate cannot be in the past';
-        throw err;
-    }
-    if(myEndDate <= myStartDate){
-        err.errors.endDate = 'endDate cannot be on or before startDate';
-        throw err;
-    }
+    if(myStartDate < currentDate) err.errors.startDate = 'startDate cannot be in the past';
+    if(myEndDate <= myStartDate) err.errors.endDate = 'endDate cannot be on or before startDate';
+    if(Object.keys(err.errors).length) throw err;
+
+    spotBookings = spot.toJSON().Bookings;
 
     const err2 = new Error('Sorry, this spot is already booked for the specified dates');
     err2.status = 403;
     err2.errors = {};
 
-    spotBookings = spot.toJSON().Bookings;
-
     spotBookings.forEach(ele => {
         const exStartDate = (ele.startDate.toISOString().split('T'))[0].split('-').join('');
         const exEndDate = (ele.endDate.toISOString().split('T'))[0].split('-').join('');
-        if(myStartDate === exStartDate){
-            err2.errors.startDate = 'Start date conflicts with an existing booking';
-            throw err2;
-        }
-        if(myEndDate === exEndDate){
-            err2.errors.endDate = 'End date conflicts with an existing booking';
-            throw err2;
-        }
-        if(myStartDate === exEndDate){
-            err2.errors.startDate = 'Start date conflicts with an existing booking';
-            throw err2;
-        }
-        if(myEndDate === exStartDate){
-            err2.errors.startDate = 'End date conflicts with an existing booking';
-            throw err2;
-        }
-        if(myStartDate > exStartDate && myStartDate < exEndDate){
-            err2.errors.startDate = 'Start date conflicts with an existing booking';
-            throw err2;
-        }
-        if(myEndDate > exStartDate && myEndDate < exEndDate){
-            err2.errors.endDate = 'End date conflicts with an existing booking';
-            throw err2;
-        }
-        if(myStartDate <= exStartDate && myEndDate >= exEndDate){
-            err2.errors.dateRange = 'Date range overlaps existing one';
-            throw err2;
-        }
+
+        if(myStartDate === exStartDate) err2.errors.startDate = 'Start date conflicts with an existing booking';
+        if(myEndDate === exEndDate) err2.errors.endDate = 'End date conflicts with an existing booking';
+        if(myStartDate === exEndDate) err2.errors.startDate = 'Start date conflicts with an existing booking';
+        if(myEndDate === exStartDate) err2.errors.startDate = 'End date conflicts with an existing booking';
+        if(myStartDate > exStartDate && myStartDate < exEndDate) err2.errors.startDate = 'Start date conflicts with an existing booking';
+        if(myEndDate > exStartDate && myEndDate < exEndDate) err2.errors.endDate = 'End date conflicts with an existing booking';
+        if(myStartDate <= exStartDate && myEndDate >= exEndDate) err2.errors.startDate = 'Start and end dates conflict with existing booking';
+        if(Object.keys(err2.errors).length) throw err2;
     });
     
     const newBooking = await Booking.create({
