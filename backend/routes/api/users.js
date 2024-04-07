@@ -10,7 +10,6 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-
 const validateSignup = [
   check('firstName')
     .exists({checkFalsy: true})
@@ -50,14 +49,12 @@ router.post('/', validateSignup, async (req, res) => {
       where: {email}
     });
 
-    if(existingUser || existingEmail){
-      const err = new Error('User already exists');
-      err.status = 500;
-      err.errors = {};
-      if(existingUser) err.errors.username = 'User with that username already exists';
-      if(existingEmail) err.errors.email = 'User with that email already exists';
-      throw err
-    }
+    const err = new Error('User already exists');
+    err.status = 500;
+    err.errors = {};
+    if(existingUser) err.errors.username = 'User with that username already exists';
+    if(existingEmail) err.errors.email = 'User with that email already exists';
+    if(Object.keys(err.errors).length) throw err;
 
     const user = await User.create({ firstName, lastName, email, username, hashedPassword });
 
@@ -74,8 +71,7 @@ router.post('/', validateSignup, async (req, res) => {
     return res.json({
       user: safeUser
     });
-  }
-);
+});
 
 
-  module.exports = router;
+module.exports = router;

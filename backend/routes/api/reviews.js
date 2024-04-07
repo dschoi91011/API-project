@@ -10,7 +10,6 @@ const {handleValidationErrors} = require('../../utils/validation');
 const router = express.Router();
 
 //Get all reviews of current user-------------------------------------------
-//clarify spotimage, fix if necessary
 router.get('/current', requireAuth, async (req, res, next) => {
     const {user} = req;
     const allReviews = await Review.findAll({
@@ -122,12 +121,8 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     const err = new Error('Bad Request');
     err.status = 400;
     err.errors = {};
-    if(!review){
-        err.errors.review = 'Review text is required';
-    }
-    if(stars < 1 || stars > 5){
-        err.errors.stars = 'Stars must be an integer from 1 to 5';
-    }
+    if(!review) err.errors.review = 'Review text is required';
+    if(stars < 1 || stars > 5) err.errors.stars = 'Stars must be an integer from 1 to 5';
     if(Object.keys(err.errors).length) throw err;
 
     await rev.update({review, stars});

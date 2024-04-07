@@ -12,7 +12,6 @@ const {Op} = require('sequelize');
 const router = express.Router();
 
 //Get all the current user's bookings-----------------------------------------
-//Clarify / fix previewImage
 router.get('/current', requireAuth, async (req, res, next) => {
     const allBookings = await Booking.findAll({
         where: {userId: req.user.id},

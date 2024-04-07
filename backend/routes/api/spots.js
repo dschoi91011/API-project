@@ -78,7 +78,6 @@ router.get('/', async (req, res, next) => {
 });
 
 //Get all spots owned by current user-----------------------------------------
-//Review 'const {user} = req 
 router.get('/current', requireAuth, async (req, res, next) => {
     const allSpots = await Spot.findAll({
         where: {ownerId: req.user.id},
@@ -171,7 +170,6 @@ router.get('/:spotId', async (req, res, next) => {
     });        
     
     spotObj.avgStarRating = sum / reviewsArr.length;
-    //if !reviewsArr.length spotObj.avgStarRating = 'No ratings available'
 
     delete spotObj.Reviews;
 
@@ -218,7 +216,8 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.spotId);
     const {url, preview} = req.body;
     
-    const spot = await Spot.findByPk(id)
+    const spot = await Spot.findByPk(id);
+
     if(!spot){
         const err = new Error("Spot couldn't be found");
         err.status = 404;
@@ -263,7 +262,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(id);
 
     if(!spot){
-        const err = new Error("Spot couldn't be found")
+        const err = new Error("Spot couldn't be found");
         err.status = 404;
         throw err;
     };
@@ -323,6 +322,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
 router.get('/:spotId/reviews', async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId);
+
     if(!spot){
         const err = new Error("Spot couldn't be found");
         err.status = 404;
@@ -365,6 +365,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const {review, stars} = req.body;
 
     const spot = await Spot.findByPk(id);
+
     if(!spot){
         const err = new Error("Spot couldn't be found");
         err.status = 404;
@@ -423,7 +424,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         ]
     });
 
-    // console.log(allBookings)
     if(req.user.id !== spot.ownerId){
         const arr = [];
         allBookings.forEach(ele => {
