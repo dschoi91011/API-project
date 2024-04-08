@@ -35,7 +35,6 @@ router.get('/', async (req, res, next) => {
     });
 
     const arr = [];
-
     allSpots.forEach(ele => {
         const spotBody = ele.toJSON();
 
@@ -65,13 +64,9 @@ router.get('/', async (req, res, next) => {
 
         //--------spotimages---------------------
 
-        if(spotBody.SpotImages[0]){
-            spotBody.previewImage = spotBody.SpotImages[0].url;
-        }
+        if(spotBody.SpotImages[0]) spotBody.previewImage = spotBody.SpotImages[0].url;
 
-        if(!spotBody.SpotImages[0]){
-            spotBody.previewImage = 'Does not exist';
-        }
+        if(!spotBody.SpotImages[0]) spotBody.previewImage = 'Does not exist';
 
         delete spotBody.SpotImages;
         delete spotBody.Reviews;
