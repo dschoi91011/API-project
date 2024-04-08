@@ -38,11 +38,10 @@ router.get('/', async (req, res, next) => {
 
     allSpots.forEach(ele => {
         const spotBody = ele.toJSON();
-        console.log(spotBody);
 
-        spotBody.lat = parseInt(spotBody.lat);
-        spotBody.lng = parseInt(spotBody.lng);
-        spotBody.price = parseInt(spotBody.price);
+        spotBody.lat = parseFloat(spotBody.lat);
+        spotBody.lng = parseFloat(spotBody.lng);
+        spotBody.price = parseFloat(spotBody.price);
 
         const reviewsArr = spotBody.Reviews;
 
@@ -94,6 +93,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     allSpots.forEach(ele => {
         const spotBody = ele.toJSON();
+
+        spotBody.lat = parseFloat(spotBody.lat);
+        spotBody.lng = parseFloat(spotBody.lng);
+        spotBody.price = parseFloat(spotBody.price);
+
+
         const reviewsArr = spotBody.Reviews;
         
         const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
@@ -160,6 +165,11 @@ router.get('/:spotId', async (req, res, next) => {
     }
 
     const spotObj = spot.toJSON();
+
+    spotObj.lat = parseFloat(spotObj.lat);
+    spotObj.lng = parseFloat(spotObj.lng);
+    spotObj.price = parseFloat(spotObj.price);
+
     const reviewsArr = spotObj.Reviews;
     spotObj.numReviews = reviewsArr.length;
 
@@ -207,6 +217,10 @@ router.post('/', requireAuth, async (req, res, next) => {
     });
 
     newSpotObj = newSpot.toJSON();
+
+    newSpotObj.lat = parseFloat(newSpotObj.lat);
+    newSpotObj.lng = parseFloat(newSpotObj.lng);
+    newSpotObj.price = parseFloat(newSpotObj.price);
 
     const cformat = newSpotObj.createdAt.toISOString().split('T').join(' ').slice(0, 19);
     const uformat = newSpotObj.updatedAt.toISOString().split('T').join(' ').slice(0, 19);

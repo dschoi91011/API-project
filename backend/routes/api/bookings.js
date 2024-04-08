@@ -39,6 +39,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
     allBookings.forEach(ele => {
         const spotBody = ele.toJSON();
 
+        spotBody.Spot.lat = parseFloat(spotBody.Spot.lat);
+        spotBody.Spot.lng = parseFloat(spotBody.Spot.lng);
+        spotBody.Spot.price = parseFloat(spotBody.Spot.price);
+
         const sformat = spotBody.startDate.toISOString().split('T').join(' ').slice(0, 10);
         const eformat = spotBody.endDate.toISOString().split('T').join(' ').slice(0, 10);
         spotBody.startDate = sformat;
