@@ -68,7 +68,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({Reviews: arr});
 });
 
-//Add image to review based on review id-----------------------------------------
+//Add image to review based on review id--------------------------------------------
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.reviewId);
     const {url} = req.body;
