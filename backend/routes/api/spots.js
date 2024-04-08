@@ -38,6 +38,12 @@ router.get('/', async (req, res, next) => {
 
     allSpots.forEach(ele => {
         const spotBody = ele.toJSON();
+        console.log(spotBody);
+
+        spotBody.lat = parseInt(spotBody.lat);
+        spotBody.lng = parseInt(spotBody.lng);
+        spotBody.price = parseInt(spotBody.price);
+
         const reviewsArr = spotBody.Reviews;
 
         const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
