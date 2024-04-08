@@ -45,7 +45,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const arr = [];
     allReviews.forEach(ele => {
         const spotBody = ele.toJSON();
-        console.log(spotBody)
+
+        spotBody.lat = parseFloat(spotBody.lat);
+        spotBody.lng = parseFloat(spotBody.lng);
+        spotBody.price = parseFloat(spotBody.price);
+  
         const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
         const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
         spotBody.createdAt = cformat;
