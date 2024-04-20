@@ -1,1 +1,7 @@
 /* TODO: Add sitewide styles */
+#navbar{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding-bottom: 15px;
+}
