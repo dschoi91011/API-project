@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import spotsReducer, {fetchASpot} from '../../store/spots';
+import {fetchASpot} from '../../store/spots';
 
 function OneSpot(){
     const [isLoaded, setIsLoaded] = useState(false);
@@ -21,6 +21,10 @@ function OneSpot(){
         getSpotData();
     }, [dispatch]);
 
+    const reserveClick = () => {
+        alert('Feature coming soon')
+    }
+
     return(
         <div>
             {isLoaded && spot &&
@@ -37,7 +41,7 @@ function OneSpot(){
                     <p>Paragraph: {spot.description}</p>
                     <div className='callout-box'>
                         <h3>{spot.price} / night</h3>
-                        <button className='callout-box-reserve'>Reserve</button>
+                        <button className='callout-box-reserve' onClick={reserveClick}>Reserve</button>
                     </div>
                 </div>
             }

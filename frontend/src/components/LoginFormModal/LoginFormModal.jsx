@@ -24,6 +24,11 @@ function LoginFormModal() {
       });
   };
 
+  const demoUserClick = () => {
+    return dispatch(sessionActions.login({credential: 'Demo-lition', password: 'password'}))
+    .then(closeModal)
+  };
+
   return (
     <>
       <h1>Log In</h1>
@@ -46,9 +51,20 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
+        {errors.credential && <p>The provided credentials were invalid</p>}
+        <button 
+        id='log-in-button'
+        type="submit"
+        disabled={credential.length < 4 || password.length < 6}
+        >Log In
+        </button>
       </form>
+
+      <button
+        id='log-in-demo-button'
+        onClick={demoUserClick}
+        >Log in as Demo User
+      </button>
     </>
   );
 }

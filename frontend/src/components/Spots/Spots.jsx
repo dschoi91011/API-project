@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import spotsReducer, {fetchSpots} from '../../store/spots';
+import {fetchSpots} from '../../store/spots';
 
 function Spots(){
     const [isLoaded, setIsLoaded] = useState(false);
@@ -27,8 +27,8 @@ function Spots(){
                 <div className='spot-tile' key={obj.id}>
                     <img src='' alt={obj.previewImage} />
                     <h3>{obj.city}, {obj.state}</h3>
-                    <h3>{typeof obj.avgRating === 'number' ? obj.avgRating : 'New'}</h3>
-                    <p>{`${obj.price} per night`}</p>
+                    <h3>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
+                    <p>{`${obj.price} / night`}</p>
                 </div>
             ))}
         </div>
