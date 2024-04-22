@@ -7,6 +7,8 @@ function Spots(){
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spots);
 
+    console.log('SPOTS!!! ----------> ', spots)
+
     useEffect(() => {
         // dispatch(fetchSpots()).then(() => {
         //     setIsLoaded(true);
@@ -17,15 +19,15 @@ function Spots(){
         getSpotsData();
     }, [dispatch]);
 
+
     return(
         <div>
             {isLoaded &&
             Object.values(spots).map(obj =>(
-                <div key={obj.id}>
-                    <h1>{obj.name}</h1>
-                    <h3>{obj.address}</h3>
-                    <h3>{obj.city}</h3>
-                    <p>{obj.description}</p>
+                <div className='spot-tile' key={obj.id}>
+                    <img src='' alt={obj.previewImage} />
+                    <h3>{obj.city}, {obj.state}</h3>
+                    <h3>{typeof obj.avgRating === 'number' ? obj.avgRating : 'New'}</h3>
                     <p>{`${obj.price} per night`}</p>
                 </div>
             ))}
