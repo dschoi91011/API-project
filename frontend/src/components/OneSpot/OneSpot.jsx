@@ -39,8 +39,15 @@ function OneSpot(){
                     <img src="" alt="small-4" />
                     <p>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
                     <p>Paragraph: {spot.description}</p>
+                    <ul className='spot-review-list'>
+
+                    </ul>
                     <div className='callout-box'>
                         <h3>{spot.price} / night</h3>
+                        {!spot.numReviews ? <p>New</p> : 
+                        spot.numReviews === 1 ? <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p> :
+                        <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews</p>}
+
                         <button className='callout-box-reserve' onClick={reserveClick}>Reserve</button>
                     </div>
                 </div>
