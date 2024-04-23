@@ -23,8 +23,7 @@ function Spots(){
 
     return(
         <div>
-            {isLoaded && 
-            Object.values(spots).map(obj =>(
+            {isLoaded && Object.values(spots).map(obj =>(
 
                 !obj.SpotImages && <NavLink key={obj.id} to={`/${obj.id}`}>
                     <div className='spot-tile'>
