@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchSpots} from '../../store/spots';
 
@@ -23,16 +23,18 @@ function Spots(){
 
     return(
         <div>
-            {isLoaded &&
+            {isLoaded && 
             Object.values(spots).map(obj =>(
-                <div className='spot-tile'>
-                <NavLink key={obj.id} to={`/${obj.id}`}>
-                    <img src='' alt={obj.previewImage} />
-                    <h3>{obj.city}, {obj.state}</h3>
-                    <h3>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
-                    <p>{`${obj.price} / night`}</p>
+
+                !obj.SpotImages && <NavLink key={obj.id} to={`/${obj.id}`}>
+                    <div className='spot-tile'>
+                        <img src='' alt={obj.previewImage} />
+                        <h3>{obj.city}, {obj.state}</h3>
+                        <h3>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
+                        <p>{`${obj.price} / night`}</p>
+                    </div>
                 </NavLink>
-                </div>
+                
             ))}
         </div>
     )

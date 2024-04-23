@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchASpot} from '../../store/spots';
 
@@ -19,7 +19,7 @@ function OneSpot(){
             setIsLoaded(true);
         }
         getSpotData();
-    }, [dispatch]);
+    }, [dispatch, spotId]);
 
     const reserveClick = () => {
         alert('Feature coming soon')
