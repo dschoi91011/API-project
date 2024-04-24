@@ -6,9 +6,9 @@ import {fetchSpots} from '../../store/spots';
 function Spots(){
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
-    const spots = useSelector(state => state.spots);
+    const spots = useSelector(state => state.spots.allSpots);
 
-    // console.log('SPOTS!!! ----------> ', spots)
+    console.log('SPOTS!!! ----------> ', spots)
 
     useEffect(() => {
         // dispatch(fetchSpots()).then(() => {
@@ -25,7 +25,7 @@ function Spots(){
         <div className='all-spots'>
             {isLoaded && Object.values(spots).map(obj =>(
 
-                !obj.SpotImages && <NavLink className='spots-navlink' key={obj.id} to={`/${obj.id}`}>
+                <NavLink className='spots-navlink' key={obj.id} to={`/${obj.id}`}>
                     <div className='spot-tile'>
                         <div className="tile-img-container">
                             <div className='tile-tooltip'>

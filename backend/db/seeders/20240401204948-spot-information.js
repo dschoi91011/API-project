@@ -49,8 +49,8 @@ module.exports = {
       {
         ownerId: 1,
         address: '1111 Test Ln',
-        city: 'San Francisco',
-        state: 'California',
+        city: 'San Antonio',
+        state: 'Texas',
         country: 'United States of America',
         lat: 44.7645358,
         lng: -102.4730327,
@@ -61,8 +61,8 @@ module.exports = {
       {
         ownerId: 2,
         address: '4332 Other Lane',
-        city: 'San Francisco',
-        state: 'California',
+        city: 'Raleigh',
+        state: 'North Carolina',
         country: 'United States of America',
         lat: 77.7645358,
         lng: -128.4730327,

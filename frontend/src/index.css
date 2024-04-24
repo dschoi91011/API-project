@@ -21,6 +21,8 @@
 #create-new-spot-button{
     text-decoration: none;
     border: 1px solid black;
+    /* position: absolute; */
+    left: 50%;
 }
 
 /* LANDING PAGE----------------------------------------------- */
@@ -65,7 +67,7 @@
     top: 20%;
 }
 
-.tile-tooltip:hover .tile-tooltip-text{
+.spot-tile:hover .tile-tooltip-text{
     visibility: visible;
     opacity: 0.6;
 }

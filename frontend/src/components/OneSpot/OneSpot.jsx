@@ -3,21 +3,23 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchASpot} from '../../store/spots';
 import {fetchReviews} from '../../store/spots';
+import { useModal } from "../../context/Modal";
+import ReviewFormModal from "../ReviewFormModal";
 
 function OneSpot(){
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
     const {spotId} = useParams();
-    const spot = useSelector(state => state.spots.spotById);
+    const spot = useSelector(state => state.spots.oneSpot.spotById);
     const reviews = useSelector(state => state.spots.reviews);
+    const sessionUser = useSelector(state => state.session.user);
+    const { openModal } = useModal();
 
     console.log('Reviews from useSelector-----> ', reviews)
     console.log('OneSpot ----------->', spot)
+    console.log('OneSpot session user---------->', sessionUser)
 
     useEffect(() => {
-
-        // dispatch(fetchSpots()).then(() => {
-        //     setIsLoaded(true);
         async function getSpotData(){
            await dispatch(fetchASpot(spotId));
            await dispatch(fetchReviews(spotId));
@@ -60,15 +62,25 @@ function OneSpot(){
                             <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews</p>}
 
                             <div className='spot-review-list'>
+                                {!reviews.length && sessionUser && sessionUser.id !== spot.Owner.id ? 
+                                (<><p>Be the first to post a review!</p>
+                                <button onClick={openModal} modalComponent={<ReviewFormModal/>}>Post Your Review</button></>) : 
+                                (<>
                                 <p className="spot-reviews-subtitle">Reviews:</p>
-                                {reviews.map((obj, index) => (
+
+                                {sessionUser && sessionUser.id !== spot.Owner.id && !reviews.find(obj => obj.userId === sessionUser.id) && 
+                                (<button onClick={openModal} modalComponent={<ReviewFormModal/>}>Post Your Review</button>)}
+
+                                {reviews.map((review, index) => (
                                     <div key={index}>
-                                        <p>{obj.User.firstName}</p>
-                                        <p>{new Date(obj.createdAt).toLocaleString("default", {month: "long",year: "numeric"})}</p>
-                                        <p>{obj.review}</p>
-                                        <p>{obj.stars}</p>
+                                        <p>{review.User.firstName}</p>
+                                        <p>{new Date(review.createdAt).toLocaleString("default", { month: "long", year: "numeric" })}</p>
+                                        <p>{review.review}</p>
+                                        <p>{review.stars}</p>
                                     </div>
                                 ))}
+                                </>
+                                )}
                             </div>
                         </div>
 

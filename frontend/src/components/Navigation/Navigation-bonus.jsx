@@ -7,9 +7,6 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
-  console.log('SessionUser -----------> ', sessionUser)        //  <-----------------------------------
-  
-
   return (
     <div id='navbar'>
         <NavLink id='home-icon' to="/"><img src="" alt="Home"/></NavLink>

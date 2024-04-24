@@ -43,7 +43,7 @@ function CreateSpotForm(){
             redirect(`/spots/${newSpot.id}`)
         } else {
             setInputError(newSpot.errors)
-            console.log(inputError)
+            console.log('CreateSpotForm inputError------>', inputError)
         }
 
     }
