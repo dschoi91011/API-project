@@ -1,7 +1,7 @@
-import {useState, useEffect} from "react";
-// import {useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-
+import {createSpot} from '../../store/spots';
 
 function CreateSpotForm(){
     // const dispatch = useDispatch();
@@ -16,35 +16,43 @@ function CreateSpotForm(){
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
     const [inputError, setInputError] = useState({})
+    const dispatch = useDispatch()
 
-    useEffect(() => {
-        const errorObj = {};
-        if(!address) errorObj.address = 'Address is required'
-        if(!city) errorObj.city = 'City is required'
-        if(!state) errorObj.state = 'State is required'
-        if(!country) errorObj.country = 'Country is required'
-        if(!name) errorObj.name = 'Name is required'
-        if(!price) errorObj.price = 'Price per night is required'
-        if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
-        setInputError(errorObj)
+    // useEffect(() => {
+        // const errorObj = {};
+        // if(!address) errorObj.address = 'Address is required'
+        // if(!city) errorObj.city = 'City is required'
+        // if(!state) errorObj.state = 'State is required'
+        // if(!country) errorObj.country = 'Country is required'
+        // if(!name) errorObj.name = 'Name is required'
+        // if(!price) errorObj.price = 'Price per night is required'
+        // if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
+        // setInputError(errorObj)
 
-    }, [address, city, state, country, name, price, description]);
+        //if errorObject has errors --> fetch
 
-    const handleSubmit = (e) => {
+    // }, [address, city, state, country, name, price, description]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        if(Object.keys(inputError).length){
-            Object.keys(inputError).forEach(ele => console.log(ele))
+        const userInput = {address, city, state, country, name, price, description}
+
+        const newSpot = await dispatch(createSpot(userInput))
+        console.log('newSpot ---------> ', newSpot)
+        if(!newSpot.errors){
+            redirect(`/spots/${newSpot.id}`)
+        } else {
+            setInputError(newSpot.errors)
+            console.log(inputError)
         }
-        const newSpot = {address, city, state, country, name, price, description}
-        console.log(newSpot)
-        redirect()
+
     }
 
     return(
         <form onSubmit={handleSubmit}>
         <h1>Create a New Spot</h1>
         <div id='create-spot-form-section1'>
-            <h3 className='section-form-title'>Where&apos; your place located?</h3>
+            <h3 className='section-form-title'>Where&apos;s your place located?</h3>
             <p className='section-caption'>Guests will only get your exact address once they booked a reservation.</p>
             <label htmlFor="country"><input id="country" type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/></label>
 

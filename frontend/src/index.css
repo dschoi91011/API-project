@@ -1,15 +1,181 @@
 /* TODO: Add sitewide styles */
+
+*{
+    color: black;
+}
+
+.spots-navlink{
+    text-decoration: none;
+}
+
 #navbar{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid black;
+    padding-top: 15px;
     padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+#create-new-spot-button{
+    text-decoration: none;
+    border: 1px solid black;
+}
+
+/* LANDING PAGE----------------------------------------------- */
+.all-spots{
+    display: grid;
+    grid-template-columns: repeat(3, 350px);
+    column-gap: 40px;
+    row-gap: 40px;
+    justify-content: center;
 }
 
 .spot-tile{
     border: 1px solid black;
+    box-shadow: 2px 2px 2px black;
+}
+
+.tile-img-container{
+    width: 348px;
+    height: 250px;
+    border-bottom: 1px solid black;
+}
+
+.tile-tooltip{
+    position: relative;
+}
+
+.tile-tooltip-text{
+    visibility: hidden;
+    position: absolute;
+    width: 100px;
+    background-color: azure;
+    color: lightcoral;
+    box-shadow: 0px 0px 5px 5px lightcoral;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 5px;
+    z-index: 100;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    left: 50%;
+    top: 20%;
+}
+
+.tile-tooltip:hover .tile-tooltip-text{
+    visibility: visible;
+    opacity: 0.6;
+}
+
+.tile-img{
+    width: 200px;
+    height: auto;
+}
+
+.tile-location{
+    color: black;
+    text-decoration: none;
+    padding-left: 5px;
+}
+
+.tile-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5px 0px;
+}
+
+.tile-star-grouping{
+    display: flex;
+    align-items: center;
+}
+
+.tile-avg-rating{
+    padding-left: 5px;
+}
+
+/* SPOT BY ID------------------------------------------------- */
+.spot-name{
+    margin-bottom: 3px;
+}
+
+.spot-location{
+    margin-top: 3px;
+}
+
+.spot-imgs-block{
+    display: flex;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+}
+
+.spot-main-pic-container{
+    width: 500px;
+    height: 600px;
+    border: 1px solid black;
+}
+
+.spot-quad-pics-container{
+    display: grid;
+    grid-template-columns: repeat(2, 250px);
+    column-gap: 20px;
+    row-gap: 20px;
+    /* border: 1px solid black; */
+}
+
+.spot-quad-pic{
+    border: 1px solid black;
+}
+
+.spot-page-lower{
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 50px;
+}
+
+.spot-host{
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.spot-reviews-subtitle{
+    font-size: 20px;
+    font-weight: bolder;
 }
 
 .callout-box{
     border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 10px;
+    height: 250px;
+    width: 480px;
+}
+
+.callout-box-upper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+.callout-right-text{
+    padding-right: 20px;
+    font-size: 22px;
+}
+
+.callout-right-price{
+    padding-left: 30px;
+    font-size: 22px;
+}
+
+.callout-box-reserve{
+    font-size: 15px;
+    width: 250px;
+    height: 40px;
+    margin-top: 50px;
 }

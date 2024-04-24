@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
 // import LoginFormPage from './components/LoginFormPage';
 // import SignupFormPage from './components/SignupFormPage';
-import Navigation from './components/Navigation/Navigation-bonus';
+import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
 
 import Spots from './components/Spots';
 import OneSpot from './components/OneSpot';
+import CreateSpotForm from './components/CreateSpotForm';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/:spotId',
         element: <OneSpot/>
+      },
+      {
+        path: '/spots/new',
+        element: <CreateSpotForm/>
       }
       // {
       //   path: 'login',

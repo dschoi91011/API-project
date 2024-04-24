@@ -15,7 +15,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick}>{itemText}</li>
+    <div className='dropdown-menu-items' onClick={onClick}>{itemText}</div>
   );
 }
 
