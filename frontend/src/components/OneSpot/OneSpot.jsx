@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchASpot} from '../../store/spots';
 import {fetchReviews} from '../../store/spots';
-import { useModal } from "../../context/Modal";
+import {useModal} from "../../context/Modal";
 import ReviewFormModal from "../ReviewFormModal";
 
 function OneSpot(){
@@ -15,9 +15,9 @@ function OneSpot(){
     const sessionUser = useSelector(state => state.session.user);
     const { openModal } = useModal();
 
-    console.log('Reviews from useSelector-----> ', reviews)
-    console.log('OneSpot ----------->', spot)
-    console.log('OneSpot session user---------->', sessionUser)
+    // console.log('Reviews from useSelector-----> ', reviews)
+    // console.log('OneSpot ----------->', spot)
+    // console.log('OneSpot session user---------->', sessionUser)
 
     useEffect(() => {
         async function getSpotData(){

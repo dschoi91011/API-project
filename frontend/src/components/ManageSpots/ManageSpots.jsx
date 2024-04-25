@@ -37,7 +37,7 @@ function ManageSpots(){
             <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
             <p className='tile-price'>{`${obj.price} / night`}</p>
            </NavLink>
-            <button className="update-spot" onClick={e => redirect('/update-spots')}>Update</button>
+            <button className="update-spot" onClick={e => redirect(`/${obj.id}/update`)}>Update</button>
             <button className='delete-spot'>Delete</button>
             </div>)))
         : (<NavLink to='/spots/new'>Create a New Spot</NavLink>)

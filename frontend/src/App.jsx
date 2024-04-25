@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         element: <ManageSpots/>
       },
       {
-        path: '/update-spots',
+        path: '/:spotId/update',
         element: <UpdateSpotForm/>
       }
       // {

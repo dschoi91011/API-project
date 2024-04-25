@@ -5,8 +5,9 @@ const GET_SPOT_BY_ID = 'GET_SPOT_BY_ID';
 const ADD_NEW_SPOT = 'ADD_NEW_SPOT';
 const GET_SPOT_REVIEWS = 'GET_SPOT_REVIEWS';
 const GET_SPOTS_BY_OWNER = 'GET_SPOTS_BY_OWNER';
+const UPDATE_SPOT = 'UPDATE_SPOT';
 
-//GET ALL SPOTS----------------------------------------------------------------------------------------
+//GET ALL SPOTS-----------------------------------------------------------------------------------------
 export const getSpots = spots => ({
     type: GET_SPOTS,
     payload: spots
@@ -25,7 +26,7 @@ export const fetchSpots = () => async(dispatch) => {
     // }
 };
 
-//GET SPOT BY ID-----------------------------------------------------------------------------------------
+//GET SPOT BY ID------------------------------------------------------------------------------------------
 export const getSpotsById = spot => ({
     type: GET_SPOT_BY_ID,
     payload: spot
@@ -48,7 +49,7 @@ export const createSpot = (userInput) => async(dispatch) => {
         method: 'POST',
         body: JSON.stringify(userInput)
     })
-    console.log('RES FOR CreateSpot -------------> ', res)    //  <--------------
+    console.log('RES FOR CreateSpot -------------> ', res)    //  <------
     if(!res.ok){
         const errors = await res.json()
         dispatch(addNewSpot(errors))
@@ -81,7 +82,22 @@ export const fetchSpotsByOwner = () => async(dispatch) => {
     dispatch(getSpotsByOwner(spots))
 }
 
-//REDUCER----------------------------------------------------------------------------------------
+//UPDATE SPOT--------------------------------------------------------------------------------------------------
+export const spotUpdated = spot => ({
+    type: UPDATE_SPOT,
+    payload: spot
+})
+
+export const updateSpot = (spotId, updatedObj) => async(dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'PUT',
+        body: JSON.stringify(updatedObj)
+    })
+    const spot = await res.json()
+    dispatch(spotUpdated(spot))
+}
+
+//REDUCER------------------------------------------------------------------------------------------------------
 const initialState = {allSpots: {}, oneSpot: {}, userSpots: {}}
 
 const spotsReducer = (state=initialState, action) => {
@@ -99,7 +115,7 @@ const spotsReducer = (state=initialState, action) => {
             newState.oneSpot.spotById = spot;
             return newState;
         }
-        case GET_SPOT_REVIEWS:{
+        case GET_SPOT_REVIEWS: {
             const newState = {...state};
             const allReviews = action.payload.Reviews
             newState.reviews = allReviews
@@ -109,12 +125,18 @@ const spotsReducer = (state=initialState, action) => {
             const newState = {...state};
             return newState
         }
-        case GET_SPOTS_BY_OWNER:{
+        case GET_SPOTS_BY_OWNER: {
             const newState = {...state};
             action.payload.Spots.forEach(spot => {
                 newState.userSpots[spot.id] = spot
             })
             return newState
+        }
+        case UPDATE_SPOT: {
+            const newState = {...state};
+            const spot = action.payload;
+            newState.oneSpot.spotById = spot;
+            return newState;
         }
         default:
             return state;
