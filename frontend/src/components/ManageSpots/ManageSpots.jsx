@@ -14,9 +14,6 @@ function ManageSpots(){
     const sessionUser = useSelector(state => state.session.user);
     const {setModalContent} = useModal();
 
-    console.log('ManageSpots State ----->', spots)
-    console.log('SessionUser -------->', sessionUser)
-
     useEffect(() => {
         async function getSpotsData(){
             await dispatch(fetchSpotsByOwner());

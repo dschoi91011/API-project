@@ -11,6 +11,7 @@ function ReviewFormModal(){
 
     const handleSubmit = e => {
         e.preventDefault();
+        const reviewObj = {review, stars}
         setErrors({});
     }
 
@@ -21,11 +22,11 @@ function ReviewFormModal(){
         <label htmlFor="user-review"><textarea id='user-review' rows='2' cols='100' 
         placeholder='Leave your review here...' value={review} onChange={e => setReview(e.target.value)}/></label>
 
-        <label htmlFor="star-rating"><input type="radio" id="star1" value='1'/>1 Star</label>
-        <label htmlFor="star-rating"><input type="radio" id="star2" value='2'/>2 Stars</label>
-        <label htmlFor="star-rating"><input type="radio" id="star3" value='3'/>3 Stars</label>
-        <label htmlFor="star-rating"><input type="radio" id="star3" value='4'/>4 Stars</label>
-        <label htmlFor="star-rating"><input type="radio" id="star5" value='5'/>5 Stars</label>
+        <label htmlFor="star-rating"><input type="radio" id="star1" name='star-rating' value='1' onChange={e => setStars(e.target.value)}/>1 Star</label>
+        <label htmlFor="star-rating"><input type="radio" id="star2" name='star-rating' value='2' onChange={e => setStars(e.target.value)}/>2 Stars</label>
+        <label htmlFor="star-rating"><input type="radio" id="star3" name='star-rating' value='3' onChange={e => setStars(e.target.value)}/>3 Stars</label>
+        <label htmlFor="star-rating"><input type="radio" id="star3" name='star-rating' value='4' onChange={e => setStars(e.target.value)}/>4 Stars</label>
+        <label htmlFor="star-rating"><input type="radio" id="star5" name='star-rating' value='5' onChange={e => setStars(e.target.value)}/>5 Stars</label>
 
         <button type='submit' disabled={review.length < 10 || stars === null}>Submit Your Review</button>
         </form>
