@@ -10,7 +10,6 @@ import { Modal } from './context/Modal';
 import Spots from './components/Spots';
 import OneSpot from './components/OneSpot';
 import CreateSpotForm from './components/CreateSpotForm';
-import ReviewFormModal from './components/ReviewFormModal';
 import ManageSpots from './components/ManageSpots';
 import UpdateSpotForm from './components/UpdateSpotForm';
 
@@ -43,18 +42,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/:spotId',
-        element: <>
-                  <OneSpot/>
-                  <Modal/>
-                  </>
+        element: <OneSpot/>
       },
       {
         path: '/spots/new',
         element: <CreateSpotForm/>
-      },
-      {
-        path: '/testmodal',
-        element: <ReviewFormModal/>
       },
       {
         path: '/manage-spots',

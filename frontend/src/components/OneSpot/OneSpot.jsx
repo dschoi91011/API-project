@@ -13,7 +13,7 @@ function OneSpot(){
     const spot = useSelector(state => state.spots.oneSpot.spotById);
     const reviews = useSelector(state => state.spots.reviews);
     const sessionUser = useSelector(state => state.session.user);
-    const { openModal } = useModal();
+    const {setModalContent} = useModal();
 
     // console.log('Reviews from useSelector-----> ', reviews)
     // console.log('OneSpot ----------->', spot)
@@ -30,6 +30,10 @@ function OneSpot(){
 
     const reserveClick = () => {
         alert('Feature coming soon')
+    }
+
+    const handleModal = () => {
+        setModalContent(<ReviewFormModal/>)
     }
 
     return(
@@ -64,12 +68,12 @@ function OneSpot(){
                             <div className='spot-review-list'>
                                 {!reviews.length && sessionUser && sessionUser.id !== spot.Owner.id ? 
                                 (<><p>Be the first to post a review!</p>
-                                <button onClick={openModal} modalComponent={<ReviewFormModal/>}>Post Your Review</button></>) : 
+                                <button onClick={handleModal}>Post Your Review</button></>) : 
                                 (<>
                                 <p className="spot-reviews-subtitle">Reviews:</p>
 
                                 {sessionUser && sessionUser.id !== spot.Owner.id && !reviews.find(obj => obj.userId === sessionUser.id) && 
-                                (<button onClick={openModal} modalComponent={<ReviewFormModal/>}>Post Your Review</button>)}
+                                (<button onClick={handleModal}>Post Your Review</button>)}
 
                                 {reviews.map((review, index) => (
                                     <div key={index}>

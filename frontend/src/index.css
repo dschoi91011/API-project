@@ -64,7 +64,7 @@
     opacity: 0;
     transition: opacity 0.2s;
     left: 50%;
-    top: 20%;
+    top: 500%
 }
 
 .spot-tile:hover .tile-tooltip-text{

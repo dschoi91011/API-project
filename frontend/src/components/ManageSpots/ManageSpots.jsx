@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchSpotsByOwner} from '../../store/spots'
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import {useModal} from "../../context/Modal";
+import DeleteFormModal from "../DeleteFormModal";
 
 function ManageSpots(){
     const [isLoaded, setIsLoaded] = useState(false);
@@ -10,6 +12,7 @@ function ManageSpots(){
     const redirect = useNavigate();
     const spots = useSelector(state => state.spots.userSpots);
     const sessionUser = useSelector(state => state.session.user);
+    const {setModalContent} = useModal();
 
     console.log('ManageSpots State ----->', spots)
     console.log('SessionUser -------->', sessionUser)
@@ -21,6 +24,10 @@ function ManageSpots(){
         }
         getSpotsData();
     }, [dispatch]);
+
+    const handleModal = () => {
+        setModalContent(<DeleteFormModal/>)
+    }
 
     return(
         <div className="user-spots">
@@ -37,8 +44,8 @@ function ManageSpots(){
             <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
             <p className='tile-price'>{`${obj.price} / night`}</p>
            </NavLink>
-            <button className="update-spot" onClick={e => redirect(`/${obj.id}/update`)}>Update</button>
-            <button className='delete-spot'>Delete</button>
+            <button className='update-spot' onClick={e => redirect(`/${obj.id}/update`)}>Update</button>
+            <button className='delete-spot' onClick={handleModal}>Delete</button>
             </div>)))
         : (<NavLink to='/spots/new'>Create a New Spot</NavLink>)
         )}

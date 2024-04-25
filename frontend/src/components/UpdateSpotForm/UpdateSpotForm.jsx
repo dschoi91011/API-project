@@ -16,9 +16,8 @@ function UpdateSpotForm(){
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
+    const [inputError, setInputError] = useState({})
     const dispatch = useDispatch()
-    // const [inputError, setInputError] = useState({})
-    // const dispatch = useDispatch()
 
     useEffect(() => {
         async function getSpotData(){
@@ -40,9 +39,29 @@ function UpdateSpotForm(){
         }
     }, [spot])
 
+    function handleErrors(){
+        const errorObj = {};
+        if(!address) errorObj.err = 'Address is required'
+        if(!city) errorObj.err = 'City is required'
+        if(!state) errorObj.err = 'State is required'
+        if(!country) errorObj.err = 'Country is required'
+        if(!name) errorObj.err = 'Name is required'
+        if(price < 1) errorObj.err = 'Price per night is required'
+        if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
+        setInputError(errorObj)
+        
+        if(inputError.err){
+            return true;
+        }
+        return false;
+    }
+
 
     const handleSubmit = async(e) => {
         e.preventDefault()
+        if(handleErrors() === true){
+            return;
+        }
         const updatedObj = {address, city, state, country, description, name, price}
         await dispatch(updateSpot(spotId, updatedObj))
         redirect(`/${spot.id}`)
