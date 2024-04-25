@@ -7,6 +7,7 @@ const GET_SPOT_REVIEWS = 'GET_SPOT_REVIEWS';
 const GET_SPOTS_BY_OWNER = 'GET_SPOTS_BY_OWNER';
 const UPDATE_SPOT = 'UPDATE_SPOT';
 
+
 //GET ALL SPOTS-----------------------------------------------------------------------------------------
 export const getSpots = spots => ({
     type: GET_SPOTS,
@@ -79,6 +80,7 @@ export const getSpotsByOwner = spots => ({
 export const fetchSpotsByOwner = () => async(dispatch) => {
     const res = await csrfFetch('api/spots/current')
     const spots = await res.json()
+    console.log('OWNED SPOTS_----->', spots)
     dispatch(getSpotsByOwner(spots))
 }
 
@@ -97,8 +99,9 @@ export const updateSpot = (spotId, updatedObj) => async(dispatch) => {
     dispatch(spotUpdated(spot))
 }
 
+
 //REDUCER------------------------------------------------------------------------------------------------------
-const initialState = {allSpots: {}, oneSpot: {}, userSpots: {}}
+const initialState = {allSpots: {}, oneSpot: {}}
 
 const spotsReducer = (state=initialState, action) => {
     switch(action.type){
@@ -126,11 +129,11 @@ const spotsReducer = (state=initialState, action) => {
             return newState
         }
         case GET_SPOTS_BY_OWNER: {
-            const newState = {...state};
+            const ownerSpots = {};
             action.payload.Spots.forEach(spot => {
-                newState.userSpots[spot.id] = spot
+                ownerSpots[spot.id] = spot
             })
-            return newState
+            return {allSpots: {...ownerSpots}, oneSpot: {...ownerSpots}}
         }
         case UPDATE_SPOT: {
             const newState = {...state};

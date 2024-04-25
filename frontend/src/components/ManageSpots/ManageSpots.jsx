@@ -6,13 +6,16 @@ import { useNavigate } from "react-router-dom";
 import {useModal} from "../../context/Modal";
 import DeleteFormModal from "../DeleteFormModal";
 
+
 function ManageSpots(){
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
     const redirect = useNavigate();
-    const spots = useSelector(state => state.spots.userSpots);
+    const spots = useSelector(state => state.spots.allSpots);
     const sessionUser = useSelector(state => state.session.user);
     const {setModalContent} = useModal();
+
+    console.log('OWNED SPOTS---------> ', spots)
 
     useEffect(() => {
         async function getSpotsData(){
@@ -22,8 +25,9 @@ function ManageSpots(){
         getSpotsData();
     }, [dispatch]);
 
-    const handleModal = () => {
-        setModalContent(<DeleteFormModal/>)
+
+    const handleModal = (spotId) => {
+        setModalContent(<DeleteFormModal spotId={spotId}/>)
     }
 
     return(
