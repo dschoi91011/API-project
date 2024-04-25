@@ -6,6 +6,7 @@ const ADD_NEW_SPOT = 'ADD_NEW_SPOT';
 const GET_SPOT_REVIEWS = 'GET_SPOT_REVIEWS';
 const GET_SPOTS_BY_OWNER = 'GET_SPOTS_BY_OWNER';
 const UPDATE_SPOT = 'UPDATE_SPOT';
+const DELETE_SPOT = 'DELETE_SPOT';
 
 
 //GET ALL SPOTS-----------------------------------------------------------------------------------------
@@ -80,7 +81,6 @@ export const getSpotsByOwner = spots => ({
 export const fetchSpotsByOwner = () => async(dispatch) => {
     const res = await csrfFetch('api/spots/current')
     const spots = await res.json()
-    console.log('OWNED SPOTS_----->', spots)
     dispatch(getSpotsByOwner(spots))
 }
 
@@ -99,6 +99,19 @@ export const updateSpot = (spotId, updatedObj) => async(dispatch) => {
     dispatch(spotUpdated(spot))
 }
 
+//DELETE SPOT--------------------------------------------------------------------------------------------------
+export const spotDeleted = spotId => ({
+    type: DELETE_SPOT,
+    payload: spotId
+})
+
+export const deleteSpot = spotId => async(dispatch) => {
+    const res = await csrfFetch(`api/spots/${spotId}`, {
+        method: 'DELETE'
+    })
+    if(res.ok) dispatch(spotDeleted(spotId))
+
+}
 
 //REDUCER------------------------------------------------------------------------------------------------------
 const initialState = {allSpots: {}, oneSpot: {}}
@@ -140,6 +153,12 @@ const spotsReducer = (state=initialState, action) => {
             const spot = action.payload;
             newState.oneSpot.spotById = spot;
             return newState;
+        }
+        case DELETE_SPOT: {
+            const newState = {...state};
+            const spot = action.payload;
+            delete newState[spot]
+            return newState
         }
         default:
             return state;

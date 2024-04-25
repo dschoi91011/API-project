@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {useModal} from "../../context/Modal";
 import DeleteFormModal from "../DeleteFormModal";
+import OpenModalButton from '../OpenModalButton';
 
 
 function ManageSpots(){
@@ -15,7 +16,7 @@ function ManageSpots(){
     const sessionUser = useSelector(state => state.session.user);
     const {setModalContent} = useModal();
 
-    console.log('OWNED SPOTS---------> ', spots)
+    console.log('FOR DELETE SPOT----->', spots)
 
     useEffect(() => {
         async function getSpotsData(){
@@ -25,10 +26,6 @@ function ManageSpots(){
         getSpotsData();
     }, [dispatch]);
 
-
-    const handleModal = (spotId) => {
-        setModalContent(<DeleteFormModal spotId={spotId}/>)
-    }
 
     return(
         <div className="user-spots">
@@ -46,7 +43,11 @@ function ManageSpots(){
             <p className='tile-price'>{`${obj.price} / night`}</p>
            </NavLink>
             <button className='update-spot' onClick={e => redirect(`/${obj.id}/update`)}>Update</button>
-            <button className='delete-spot' onClick={handleModal}>Delete</button>
+            <OpenModalButton
+                className='delete-spot'
+                buttonText='Delete'
+                modalComponent={<DeleteFormModal spotId={obj.id}/>}
+            />
             </div>)))
         : (<NavLink to='/spots/new'>Create a New Spot</NavLink>)
         )}
