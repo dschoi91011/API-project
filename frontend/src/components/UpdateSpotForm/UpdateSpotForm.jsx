@@ -8,7 +8,7 @@ function UpdateSpotForm(){
     const spot = useSelector(state => state.spots.oneSpot.spotById)
 
     const {spotId} = useParams()
-    const [isLoaded, setIsLoaded] = useState(false)
+    // const [isLoaded, setIsLoaded] = useState(false)
     const [address, setAddress] = useState('')          // (spot?.address || '')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
@@ -23,7 +23,7 @@ function UpdateSpotForm(){
     useEffect(() => {
         async function getSpotData(){
            await dispatch(fetchASpot(spotId));
-           setIsLoaded(true);
+        //    setIsLoaded(true);
         }
         getSpotData();
     }, [dispatch, spotId]);
