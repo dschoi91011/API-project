@@ -21,7 +21,7 @@
 #create-new-spot-button{
     text-decoration: none;
     border: 1px solid black;
-    /* position: absolute; */
+    /* position: relative; */
     left: 50%;
 }
 
@@ -99,6 +99,11 @@
     padding-left: 5px;
 }
 
+.tile-star{
+    height: 20px;
+    width: auto;
+}
+
 /* SPOT BY ID------------------------------------------------- */
 .spot-name{
     margin-bottom: 3px;
@@ -143,6 +148,21 @@
     font-weight: bolder;
 }
 
+.spot-description{
+    padding-right: 20px;
+}
+
+.det-rev-sum{
+    display: flex;
+    align-items: center;
+}
+
+.details-black-star{
+    height: 13px;
+    width: auto;
+    padding-right: 5px;
+}
+
 .spot-reviews-subtitle{
     font-size: 20px;
     font-weight: bolder;
@@ -159,15 +179,21 @@
 }
 
 .callout-box-upper{
+    border-bottom: 1px solid black;
+}
+
+.callout-box-mid{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
+    padding: 20px 25px 5px;
 }
 
-.callout-right-text{
-    padding-right: 20px;
+.callout-review-group{
+    display: flex;
+    align-items: center;
     font-size: 22px;
+    padding-right: 40px;
 }
 
 .callout-right-price{
@@ -177,7 +203,13 @@
 
 .callout-box-reserve{
     font-size: 15px;
-    width: 250px;
+    width: 350px;
     height: 40px;
-    margin-top: 50px;
+    margin-top: 10px;
+}
+
+.callout-black-star{
+    height: 22px;
+    width: auto;
+    padding-right: 5px;
 }

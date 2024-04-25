@@ -1,19 +1,19 @@
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton-bonus';
-// import CreateSpotForm from '../CreateSpotForm';
-import './Navigation.css';
+// import { NavLink } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+// import ProfileButton from './ProfileButton-bonus';
 
-function Navigation({ isLoaded }) {
-  const sessionUser = useSelector(state => state.session.user);
+// import './Navigation.css';
 
-  return (
-    <div id='navbar'>
-        <NavLink id='home-icon' to="/"><img src="" alt="Home"/></NavLink>
+// function Navigation({ isLoaded }) {
+//   const sessionUser = useSelector(state => state.session.user);
 
-      {isLoaded && (<ProfileButton id='profile-button' user={sessionUser} />)}
-    </div>
-  );
-}
+//   return (
+//     <div id='navbar'>
+//         <NavLink id='home-icon' to="/"><img src="" alt="Home"/></NavLink>
 
-export default Navigation;
+//       {isLoaded && (<ProfileButton id='profile-button' user={sessionUser} />)}
+//     </div>
+//   );
+// }
+
+// export default Navigation;

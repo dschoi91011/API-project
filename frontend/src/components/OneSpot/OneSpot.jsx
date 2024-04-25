@@ -59,11 +59,13 @@ function OneSpot(){
                     <div className="spot-page-lower">
                         <div className="spot-page-lower-left">
                             <p className="spot-host">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
-                            <p className="spot-description">Paragraph: {spot.description}</p>
+                            <p className="spot-description">Hi-lights: {spot.description}</p>
 
                             {!spot.numReviews ? <p>New</p> : 
-                            spot.numReviews === 1 ? <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p> :
-                            <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews</p>}
+                            spot.numReviews === 1 ? <p className="det-rev-sum"><img className="details-black-star" src='/black-star.jpg'/> 
+                            {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p> :
+                            <p className="det-rev-sum"><img className='details-black-star' src='/black-star.jpg'/> 
+                            {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews</p>}
 
                             <div className='spot-review-list'>
                                 {!reviews.length && sessionUser && sessionUser.id !== spot.Owner.id ? 
@@ -77,10 +79,11 @@ function OneSpot(){
 
                                 {reviews.map((review, index) => (
                                     <div key={index}>
-                                        <p>{review.User.firstName}</p>
-                                        <p>{new Date(review.createdAt).toLocaleString("default", { month: "long", year: "numeric" })}</p>
-                                        <p>{review.review}</p>
-                                        <p>{review.stars}</p>
+                                        <p>Reviewer: {review.User.firstName}</p>
+                                        <p>Date of review: {new Date(review.createdAt).toLocaleString("default", { month: "long", year: "numeric" })}</p>
+                                        <p>Comments: {review.review}</p>
+                                        <p>Rating: {review.stars}</p>
+                                        <p>_______________</p>
                                     </div>
                                 ))}
                                 </>
@@ -90,13 +93,18 @@ function OneSpot(){
 
                         <div className="spot-page-lower-right">
                             <div className='callout-box'>
-                                <div className='callout-box-upper'>
+                                <div className="callout-box-upper"><h2>Don&apos;t miss out!</h2></div>
+                                <div className='callout-box-mid'>
                                     <div className="callout-right-text">
-                                        {!spot.numReviews ? <p>New</p> : 
-                                        spot.numReviews === 1 ? <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p> :
-                                        <p>{spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews</p>}
+                                        {!spot.numReviews ? <p className="callout-review-group">New</p> : 
+                                        spot.numReviews === 1 ? (<p className="callout-review-group"><img className="callout-black-star" src='/black-star.jpg'/>
+                                        {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p>) : 
+                                        <p className="callout-review-group">
+                                            <img className="callout-black-star" src='/black-star.jpg'/>
+                                            {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews
+                                        </p>}
                                     </div>
-                                    <h3 className="callout-right-price">{spot.price} / night</h3>
+                                    <p className="callout-right-price">{`$${spot.price} / night`}</p>
                                 </div>
                                 <button className='callout-box-reserve' onClick={reserveClick}>Reserve</button>
                             </div>

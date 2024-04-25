@@ -36,7 +36,7 @@ function Spots(){
                         <h3 className='tile-location'>{obj.city}, {obj.state}</h3>
                         <div className="tile-footer">
                             <div className='tile-star-grouping'>
-                                <img className='tile-star' src="" alt="img"/>
+                                <img className='tile-star' src="/black-star.jpg" alt="img"/>
                                 <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
                             </div>
                             <p className='tile-price'>{`${obj.price} / night`}</p>
