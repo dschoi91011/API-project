@@ -1,0 +1,28 @@
+#login-title{
+    display: flex;
+    justify-content: center;
+}
+
+.form{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.user-email{
+    margin: 10px 10px 10px;
+}
+
+.password{
+    margin-right: 10px;
+}
+
+#log-in-button{
+    margin-right: 10px;
+}
+
+.demo-btn-container{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0px 20px;
+}

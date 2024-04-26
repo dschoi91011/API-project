@@ -5,6 +5,8 @@ import {fetchASpot} from '../../store/spots';
 import {fetchReviews} from '../../store/reviews';    
 import {useModal} from "../../context/Modal";
 import ReviewFormModal from "../ReviewFormModal";
+import DeleteReviewModal from "../DeleteReviewModal";
+import OpenModalButton from '../OpenModalButton';
 
 function OneSpot(){
     const [isLoaded, setIsLoaded] = useState(false);
@@ -34,8 +36,12 @@ function OneSpot(){
         alert('Feature coming soon')
     }
 
-    const handleModal = () => {
+    const handleReviewModal = () => {
         setModalContent(<ReviewFormModal spotId={spotId}/>)
+    }
+
+    const handleDeleteModal = () => {
+        setModalContent(<DeleteReviewModal spotId={spotId} reviewId={reviews.id}/>)
     }
 
     return(
@@ -71,28 +77,43 @@ function OneSpot(){
 
                             <div className='spot-review-list'>
                                 {!reviews.length && sessionUser && sessionUser.id !== spot.Owner.id ? 
-                                (<>
+                                (
+                                <>
                                     <p>Be the first to post a review!</p>
-                                    <button onClick={handleModal}>Post Your Review</button>
-                                </>) : (
+                                    <button onClick={handleReviewModal}>Post Your Review</button>
+                                </>
+                                ) : (
                                 <>
                                     <p className="spot-reviews-subtitle">Reviews:</p>
                                     {sessionUser && sessionUser.id !== spot.Owner.id && !reviews.find(obj => obj.userId === sessionUser.id) && 
-                                    (<button onClick={handleModal}>Post Your Review</button>)}
-
-                                {reviews.map((review, index) => (
+                                    (<button onClick={handleReviewModal}>Post Your Review</button>)}
+                                </>
+                                )}
+                                
+                                {
+                                reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                                .map((review, index) => (
                                     <div key={index}>
                                         <p>Reviewer: {review.User.firstName}</p>
                                         <p>Date of review: {new Date(review.createdAt).toLocaleString("default", { month: "long", year: "numeric" })}</p>
                                         <p>Comments: {review.review}</p>
                                         <p>Rating: {review.stars}</p>
+                                        
+                                        {sessionUser && review.userId === sessionUser.id && 
+                                        (<OpenModalButton className='delete-spot' buttonText='Delete' modalComponent={<DeleteReviewModal spotId={spotId} reviewId={review.id}/>}/>)}
+                                        
                                         <p>_______________</p>
                                     </div>
                                 ))}
-                                </>
-                                )}
+                          
+                                 
                             </div>
                         </div>
+                        {/* {reviews.find(review => review.userId === sessionUser.id) && (<button className='delete-modal-btn' onClick={handleDeleteModal}>Delete</button>)}  */}
+                                {/* {reviews.map(review => (
+                                    review.userId === sessionUser.id && (<button className='delete-modal-btn' onClick={handleDeleteModal}>Delete</button>)
+                                ))} */}
+
 
                         <div className="spot-page-lower-right">
                             <div className='callout-box'>

@@ -108,7 +108,7 @@ function UpdateSpotForm(){
 
 
         </div>
-        <div id='update-spot-form-section5'>
+        {/* <div id='update-spot-form-section5'>
             <h3 className='update-section-form-title'>Liven up your spot with photos</h3>
             <p className='update-section-caption'>Submit a link to at least one photo to publish your spot.</p>
             <label htmlFor="main-img"><input id="main-img" type="text" placeholder="Preview Image URL"/></label>
@@ -117,7 +117,7 @@ function UpdateSpotForm(){
             <label htmlFor="img3"><input id="img3" type="text" placeholder="Image URL"/></label>
             <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL"/></label>
 
-        </div>
+        </div> */}
         <button type='submit'>Update your Spot</button>
         </form>
     )

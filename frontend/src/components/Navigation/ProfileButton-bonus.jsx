@@ -5,6 +5,7 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import './ProfileButton-bonus.css';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -50,12 +51,12 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <div className='user-profile'>
-            <li>Hello, {user.firstName}</li>
-            <li>{user.email}</li>
-            <li><NavLink to='/spots/current'>Manage Spots</NavLink></li>
-            <li>
+            <p>Hello, {user.firstName}</p>
+            <p>{user.email}</p>
+            <p><NavLink style={{textDecoration: 'none'}} to='/spots/current'>Manage Spots</NavLink></p>
+            <p>
               <button onClick={logout}>Log Out</button>
-            </li>
+            </p>
           </div>
         ) : (
           <div className='dropdown-menu'>

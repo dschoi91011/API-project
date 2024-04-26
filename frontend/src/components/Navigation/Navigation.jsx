@@ -11,20 +11,21 @@ function Navigation({ isLoaded }) {
 
   const sessionLinks = sessionUser ?
     (
-      <div>
-        <ProfileButton user={sessionUser} />
+      <div className='nav-right-section'>
         <NavLink id='create-new-spot-button' to='/spots/new'>Create New Spot</NavLink>
+        <ProfileButton className='prof-btn' user={sessionUser} />
       </div>
     ) : (
       <>
-        <ProfileButton/>
+        <ProfileButton className='prof-btn'/>
       </>
     );
 
 
   return (
     <div id='navbar'>
-      <NavLink id='home-icon' to="/"><img src="" alt="Home"/></NavLink>
+      <NavLink id='home-icon' to="/"><img src="/chickenscratch.jpg" 
+      style={{height: '70px', width: 'auto'}} alt="Home"/></NavLink>
       {isLoaded && sessionLinks}
     </div>
   );

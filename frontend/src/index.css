@@ -51,6 +51,7 @@
 
 .tile-tooltip{
     position: relative;
+    z-index: 20;
 }
 
 .tile-tooltip-text{
@@ -63,17 +64,18 @@
     border-radius: 10px;
     text-align: center;
     padding: 10px 5px;
-    z-index: 1000;
+    z-index: 20;
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.2s;
     left: 50%;
-    top: 500%
+    top: 50px;
 }
 
 .spot-tile:hover .tile-tooltip-text{
+    z-index: 20;
     visibility: visible;
-    opacity: 0.6;
+    opacity: 1;
 }
 
 .tile-img{

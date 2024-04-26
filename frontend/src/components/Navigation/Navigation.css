@@ -1,7 +1,22 @@
 .profile-dropdown {
   position: absolute;
+  right: 0;
+  margin-right: 50px;
+  margin-top: 30px;
 }
 
 .hidden {
   display: none;
 }
+
+.nav-right-secion{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#create-new-spot-button{
+  margin-right: 50px;
+}
+

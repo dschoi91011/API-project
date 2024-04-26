@@ -34,8 +34,12 @@ export const createReview = (userReview, spotId) => async(dispatch) => {
 }
 
 //DELETE REVIEW----------------------------------------------------------------------------
-
-
+export const deleteReview = (reviewId, spotId) => async(dispatch) => {
+        await csrfFetch(`/api/reviews/${reviewId}`, {
+            method: 'DELETE'
+        })
+        dispatch(fetchReviews(spotId))
+}
 
 //REDUCER----------------------------------------------------------------------------------
 const initialState = {allSpots: {}, oneSpot: {}}
@@ -50,7 +54,7 @@ const reviewsReducer = (state=initialState, action) => {
         }
         case CREATE_REVIEW: {
             const newState = {...state}
-
+            //not completed yet
             return newState
         }
 
