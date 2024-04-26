@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         element: <CreateSpotForm/>
       },
       {
-        path: '/manage-spots',
+        path: '/spots/current',
         element: <ManageSpots/>
       },
       {

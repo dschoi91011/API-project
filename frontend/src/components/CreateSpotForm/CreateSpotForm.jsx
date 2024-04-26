@@ -1,12 +1,11 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {createSpot} from '../../store/spots';
 
 function CreateSpotForm(){
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const redirect = useNavigate();
-    // const currentUser = useSelector(state => state.session.user);
 
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -21,52 +20,89 @@ function CreateSpotForm(){
     const [smImg3, setSmImg3] = useState('')
     const [smImg4, setSmImg4] = useState('')
     const [inputError, setInputError] = useState({})
-    const dispatch = useDispatch()
+    const [submit, setSubmit] = useState(false)
 
     // useEffect(() => {
-        // const errorObj = {};
-        // if(!address) errorObj.address = 'Address is required'
-        // if(!city) errorObj.city = 'City is required'
-        // if(!state) errorObj.state = 'State is required'
-        // if(!country) errorObj.country = 'Country is required'
-        // if(!name) errorObj.name = 'Name is required'
-        // if(!price) errorObj.price = 'Price per night is required'
-        // if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
-        // setInputError(errorObj)
+    //     let errorObj = {};
+    //     if(!address) errorObj.address = 'Address is required'
+    //     if(!city) errorObj.city = 'City is required'
+    //     if(!state) errorObj.state = 'State is required'
+    //     if(!country) errorObj.country = 'Country is required'
+    //     if(!name) errorObj.name = 'Name is required'
+    //     if(!price) errorObj.price = 'Price per night is required'
+    //     if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
 
-        //if errorObject has errors --> fetch
+    //     if(!mainImg) errorObj.mainImg = 'Preview image is required'
+    //     if(!smImg1) errorObj.smImg1 = 'Invalid image URL'
+    //     if(!smImg2) errorObj.smImg2 = 'Invalid image URL'
+    //     if(!smImg3) errorObj.smImg3 = 'Invalid image URL'
+    //     if(!smImg4) errorObj.smImg4 = 'Invalid image URL'
 
-    // }, [address, city, state, country, name, price, description]);
+    //     setInputError(errorObj)
+    // }, [address, city, state, country, name, price, description, mainImg, smImg1, smImg2, smImg3, smImg4]);
 
-    const handleSubmit = async (e) => {
+    const hasErrors = () => {
+        let errorObj = {};
+        if(!address) errorObj.address = 'Address is required'
+        if(!city) errorObj.city = 'City is required'
+        if(!state) errorObj.state = 'State is required'
+        if(!country) errorObj.country = 'Country is required'
+        if(!name) errorObj.name = 'Name is required'
+        if(!price) errorObj.price = 'Price per night is required'
+        if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
+
+        if(!mainImg) errorObj.mainImg = 'Preview image is required'
+        if(!smImg1) errorObj.smImg1 = 'Invalid image URL'
+        if(!smImg2) errorObj.smImg2 = 'Invalid image URL'
+        if(!smImg3) errorObj.smImg3 = 'Invalid image URL'
+        if(!smImg4) errorObj.smImg4 = 'Invalid image URL'
+
+        // if(Object.values(errorObj).length > 0){
+        //     setInputError(errorObj)
+        //     return true
+        // }
+        // return false
+        return errorObj
+    }
+
+
+    const handleSubmit = async(e) => {
         e.preventDefault()
-        const userInput = {address, city, state, country, name, price, description, mainImg, smImg1, smImg2, smImg3, smImg4}
+        const newErr = hasErrors()
+        setInputError(newErr)
+        // e.preventDefault()
+        // setSubmit(true)
+        // setInputError({})
+        
+        if(Object.keys(newErr).length === 0){
+            const userInput = {address, city, state, country, name, price, description, lat: 0, lng: 0}
+            const images = {smImg1, smImg2, smImg3, smImg4}
+            const prevImg = mainImg
 
-        const newSpot = await dispatch(createSpot(userInput))
-        console.log('newSpot ---------> ', newSpot)
-        if(!newSpot.errors){
+            for(let img in images){
+                if(!img) images[img] = 'include pic here'
+            }
+
+            const newSpot = await dispatch(createSpot(userInput, images, prevImg))
             redirect(`/spots/${newSpot.id}`)
-        } else {
-            setInputError(newSpot.errors)
-            console.log('CreateSpotForm inputError------>', inputError)
         }
-
     }
 
     return(
         <form onSubmit={handleSubmit}>
         <h1>Create a New Spot</h1>
+
         <div id='create-spot-form-section1'>
             <h3 className='section-form-title'>Where&apos;s your place located?</h3>
             <p className='section-caption'>Guests will only get your exact address once they booked a reservation.</p>
             <label htmlFor="country"><input id="country" type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/></label>
-
+            {inputError.country && <p style={{color: 'red'}}>{inputError.country}</p>}
             <label htmlFor="address"><input id="address" type="text" placeholder="Street Address" value={address} onChange={e => setAddress(e.target.value)}/></label>
-
+            {inputError.address && <p>{inputError.address}</p>}
             <label htmlFor="city"><input id="city" type="text" placeholder="City" value={city} onChange={e => setCity(e.target.value)}/></label>
-
+            {inputError.city && <p>{inputError.city}</p>}
             <label htmlFor="state"><input id="state" type="text" placeholder="State" value={state} onChange={e => setState(e.target.value)}/></label>
-
+            {inputError.state && <p>{inputError.state}</p>}
 
         </div>
         <div id='create-spot-form-section2'>

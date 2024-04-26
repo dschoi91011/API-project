@@ -1,18 +1,16 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/Modal';
+// import { useDispatch } from 'react-redux';
 
 function ReviewFormModal(){
-    const dispatch = useDispatch();
-    const { closeModal } = useModal();
+    // const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(null);
-    const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
 
     const handleSubmit = e => {
         e.preventDefault();
-        const reviewObj = {review, stars}
-        setErrors({});
+        // const reviewObj = {review, stars}
+        // setErrors({});
     }
 
 

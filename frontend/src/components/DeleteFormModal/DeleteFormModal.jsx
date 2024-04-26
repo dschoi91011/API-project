@@ -1,19 +1,16 @@
 import { useModal } from '../../context/Modal';
 import { useDispatch } from 'react-redux';
 import {deleteSpot} from '../../store/spots';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
 
 function DeleteFormModal({spotId}){
-    const redirect = useNavigate()
+
     const {closeModal} = useModal()
     const dispatch = useDispatch()
-    const spot = useSelector(state => state.spots)
 
-    const handleSubmit = async(e) => {
-
+    const handleSubmit = async() => {
+        
         await dispatch(deleteSpot(spotId))
-        redirect('/')
         closeModal()
     }
 
@@ -26,7 +23,6 @@ function DeleteFormModal({spotId}){
         </div>
 
     )
-
 
 }
 

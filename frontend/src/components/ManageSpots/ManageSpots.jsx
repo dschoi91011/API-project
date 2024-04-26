@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchSpotsByOwner} from '../../store/spots'
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import {useModal} from "../../context/Modal";
+// import {useModal} from "../../context/Modal";
 import DeleteFormModal from "../DeleteFormModal";
 import OpenModalButton from '../OpenModalButton';
 
@@ -14,9 +14,7 @@ function ManageSpots(){
     const redirect = useNavigate();
     const spots = useSelector(state => state.spots.allSpots);
     const sessionUser = useSelector(state => state.session.user);
-    const {setModalContent} = useModal();
-
-    console.log('FOR DELETE SPOT----->', spots)
+    // const {setModalContent} = useModal();
 
     useEffect(() => {
         async function getSpotsData(){

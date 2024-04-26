@@ -6,7 +6,7 @@ const ADD_NEW_SPOT = 'ADD_NEW_SPOT';
 const GET_SPOT_REVIEWS = 'GET_SPOT_REVIEWS';
 const GET_SPOTS_BY_OWNER = 'GET_SPOTS_BY_OWNER';
 const UPDATE_SPOT = 'UPDATE_SPOT';
-const DELETE_SPOT = 'DELETE_SPOT';
+const CREATE_SPOT_IMAGES = 'CREATE_SPOT_IMAGES';
 
 
 //GET ALL SPOTS-----------------------------------------------------------------------------------------
@@ -16,16 +16,9 @@ export const getSpots = spots => ({
 });
 
 export const fetchSpots = () => async(dispatch) => {
-    // try{
         const res = await fetch('/api/spots');
-        // if(!res.ok){
-        //     throw new Error('Could not retrieve spots');
-        // }
         const spots = await res.json();
         dispatch(getSpots(spots));
-    // } catch(error) {
-    //     console.error(error)
-    // }
 };
 
 //GET SPOT BY ID------------------------------------------------------------------------------------------
@@ -46,19 +39,35 @@ export const addNewSpot = newSpot => ({
     payload: newSpot
 });
 
-export const createSpot = (userInput) => async(dispatch) => {
+export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
     const res = await csrfFetch('/api/spots', {                 
         method: 'POST',
         body: JSON.stringify(userInput)
     })
-    console.log('RES FOR CreateSpot -------------> ', res)    //  <------
-    if(!res.ok){
-        const errors = await res.json()
-        dispatch(addNewSpot(errors))
+    const newSpot = res.json()
+
+    await csrfFetch(`/api/spots/${spot.id}/images`, {
+        method: 'POST',
+        body: JSON.stringify({
+            url: prevImg,
+            preview: true
+        })
+    })
+
+    for(let img in images){
+        await csrfFetch(`/api/spots/${spot.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify({
+                url: images[img],
+                preview: false
+            })
+        })
     }
-    const newSpot = await res.json()
     dispatch(addNewSpot(newSpot))
-}
+};
+
+
+
 
 //GET SPOT REVIEWS-------------------------------------------------------------------------------------------
 export const viewSpotReviews = reviews => ({
@@ -67,7 +76,7 @@ export const viewSpotReviews = reviews => ({
 });
 
 export const fetchReviews = (spotId) => async(dispatch) => {
-    const res = await fetch(`api/spots/${spotId}/reviews`)
+    const res = await fetch(`/api/spots/${spotId}/reviews`)
     const reviews = await res.json()
     dispatch(viewSpotReviews(reviews))
 }
@@ -79,7 +88,7 @@ export const getSpotsByOwner = spots => ({
 });
 
 export const fetchSpotsByOwner = () => async(dispatch) => {
-    const res = await csrfFetch('api/spots/current')
+    const res = await csrfFetch('/api/spots/current')
     const spots = await res.json()
     dispatch(getSpotsByOwner(spots))
 }
@@ -100,17 +109,12 @@ export const updateSpot = (spotId, updatedObj) => async(dispatch) => {
 }
 
 //DELETE SPOT--------------------------------------------------------------------------------------------------
-export const spotDeleted = spotId => ({
-    type: DELETE_SPOT,
-    payload: spotId
-})
 
 export const deleteSpot = spotId => async(dispatch) => {
-    const res = await csrfFetch(`api/spots/${spotId}`, {
+    await csrfFetch(`/api/spots/${spotId}`, {
         method: 'DELETE'
     })
-    if(res.ok) dispatch(spotDeleted(spotId))
-
+    dispatch(fetchSpotsByOwner())
 }
 
 //REDUCER------------------------------------------------------------------------------------------------------
@@ -139,7 +143,12 @@ const spotsReducer = (state=initialState, action) => {
         }
         case ADD_NEW_SPOT: {
             const newState = {...state};
+            const spot = action.payload
+            newState.allSpots[spot.id] = spot
             return newState
+        }
+        case CREATE_SPOT_IMAGES: {
+            return {...state, ...action.payload}
         }
         case GET_SPOTS_BY_OWNER: {
             const ownerSpots = {};
@@ -153,12 +162,6 @@ const spotsReducer = (state=initialState, action) => {
             const spot = action.payload;
             newState.oneSpot.spotById = spot;
             return newState;
-        }
-        case DELETE_SPOT: {
-            const newState = {...state};
-            const spot = action.payload;
-            delete newState[spot]
-            return newState
         }
         default:
             return state;

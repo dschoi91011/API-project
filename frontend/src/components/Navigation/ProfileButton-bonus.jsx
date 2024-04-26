@@ -52,7 +52,7 @@ function ProfileButton({ user }) {
           <div className='user-profile'>
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
-            <li><NavLink to='/manage-spots'>Manage Spots</NavLink></li>
+            <li><NavLink to='/spots/current'>Manage Spots</NavLink></li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
