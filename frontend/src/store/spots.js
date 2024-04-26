@@ -67,9 +67,6 @@ export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
     return newSpot
 };
 
-
-
-
 //GET SPOT REVIEWS-------------------------------------------------------------------------------------------
 export const viewSpotReviews = reviews => ({
     type: GET_SPOT_REVIEWS,
