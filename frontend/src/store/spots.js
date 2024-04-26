@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_SPOTS = 'GET_SPOTS';
 const GET_SPOT_BY_ID = 'GET_SPOT_BY_ID';
 const ADD_NEW_SPOT = 'ADD_NEW_SPOT';
-const GET_SPOT_REVIEWS = 'GET_SPOT_REVIEWS';
+
 const GET_SPOTS_BY_OWNER = 'GET_SPOTS_BY_OWNER';
 const UPDATE_SPOT = 'UPDATE_SPOT';
 const CREATE_SPOT_IMAGES = 'CREATE_SPOT_IMAGES';
@@ -68,16 +68,18 @@ export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
 };
 
 //GET SPOT REVIEWS-------------------------------------------------------------------------------------------
-export const viewSpotReviews = reviews => ({
-    type: GET_SPOT_REVIEWS,
-    payload: reviews
-});
+// const GET_SPOT_REVIEWS = 'GET_SPOT_REVIEWS';
 
-export const fetchReviews = (spotId) => async(dispatch) => {
-    const res = await fetch(`/api/spots/${spotId}/reviews`)
-    const reviews = await res.json()
-    dispatch(viewSpotReviews(reviews))
-}
+// export const viewSpotReviews = reviews => ({
+//     type: GET_SPOT_REVIEWS,
+//     payload: reviews
+// });
+
+// export const fetchReviews = (spotId) => async(dispatch) => {
+//     const res = await fetch(`/api/spots/${spotId}/reviews`)
+//     const reviews = await res.json()
+//     dispatch(viewSpotReviews(reviews))
+// }
 
 //GET SPOTS BY OWNER------------------------------------------------------------------------------------------
 export const getSpotsByOwner = spots => ({
@@ -133,18 +135,18 @@ const spotsReducer = (state=initialState, action) => {
             newState.oneSpot.spotById = spot;
             return newState;
         }
-        case GET_SPOT_REVIEWS: {
-            const newState = {...state};
-            const allReviews = action.payload.Reviews
-            newState.reviews = allReviews
-            return newState
-        }
         case ADD_NEW_SPOT: {
             const newState = {...state};
             const spot = action.payload
             newState.allSpots[spot.id] = spot
             return newState
         }
+        // case GET_SPOT_REVIEWS: {
+//     const newState = {...state};
+//     const allReviews = action.payload.Reviews
+//     newState.reviews = allReviews
+//     return newState
+// }
         case CREATE_SPOT_IMAGES: {
             return {...state, ...action.payload}
         }

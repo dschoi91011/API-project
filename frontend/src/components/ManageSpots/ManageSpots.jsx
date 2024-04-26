@@ -40,7 +40,7 @@ function ManageSpots(){
             <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
             <p className='tile-price'>{`${obj.price} / night`}</p>
            </NavLink>
-            <button className='update-spot' onClick={e => redirect(`/${obj.id}/update`)}>Update</button>
+            <button className='update-spot' onClick={() => redirect(`/${obj.id}/update`)}>Update</button>
             <OpenModalButton
                 className='delete-spot'
                 buttonText='Delete'

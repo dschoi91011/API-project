@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchASpot} from '../../store/spots';
-import {fetchReviews} from '../../store/spots';
+import {fetchReviews} from '../../store/reviews';    
 import {useModal} from "../../context/Modal";
 import ReviewFormModal from "../ReviewFormModal";
 
@@ -11,12 +11,14 @@ function OneSpot(){
     const dispatch = useDispatch();
     const {spotId} = useParams();
     const spot = useSelector(state => state.spots.oneSpot.spotById);
-    const reviews = useSelector(state => state.spots.reviews);
+    const reviews = useSelector(state => state.reviews.reviews);
     const sessionUser = useSelector(state => state.session.user);
+
+    const stateSpot = useSelector(state => state.spots)
     const {setModalContent} = useModal();
 
-    // console.log('Reviews from useSelector-----> ', reviews)
-    // console.log('OneSpot ----------->', spot)
+    console.log('Reviews from useSelector-----> ', reviews)
+    console.log('OneSpot ----------->', stateSpot)
     // console.log('OneSpot session user---------->', sessionUser)
 
     useEffect(() => {
@@ -26,14 +28,14 @@ function OneSpot(){
            setIsLoaded(true);
         }
         getSpotData();
-    }, [dispatch, spotId]);
+    }, [dispatch, spotId, isLoaded]);
 
     const reserveClick = () => {
         alert('Feature coming soon')
     }
 
     const handleModal = () => {
-        setModalContent(<ReviewFormModal/>)
+        setModalContent(<ReviewFormModal spotId={spotId}/>)
     }
 
     return(
@@ -69,13 +71,14 @@ function OneSpot(){
 
                             <div className='spot-review-list'>
                                 {!reviews.length && sessionUser && sessionUser.id !== spot.Owner.id ? 
-                                (<><p>Be the first to post a review!</p>
-                                <button onClick={handleModal}>Post Your Review</button></>) : 
                                 (<>
-                                <p className="spot-reviews-subtitle">Reviews:</p>
-
-                                {sessionUser && sessionUser.id !== spot.Owner.id && !reviews.find(obj => obj.userId === sessionUser.id) && 
-                                (<button onClick={handleModal}>Post Your Review</button>)}
+                                    <p>Be the first to post a review!</p>
+                                    <button onClick={handleModal}>Post Your Review</button>
+                                </>) : (
+                                <>
+                                    <p className="spot-reviews-subtitle">Reviews:</p>
+                                    {sessionUser && sessionUser.id !== spot.Owner.id && !reviews.find(obj => obj.userId === sessionUser.id) && 
+                                    (<button onClick={handleModal}>Post Your Review</button>)}
 
                                 {reviews.map((review, index) => (
                                     <div key={index}>
