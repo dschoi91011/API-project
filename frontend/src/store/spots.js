@@ -44,9 +44,9 @@ export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
         method: 'POST',
         body: JSON.stringify(userInput)
     })
-    const newSpot = res.json()
+    const newSpot = await res.json()
 
-    await csrfFetch(`/api/spots/${spot.id}/images`, {
+    await csrfFetch(`/api/spots/${newSpot.id}/images`, {
         method: 'POST',
         body: JSON.stringify({
             url: prevImg,
@@ -55,7 +55,7 @@ export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
     })
 
     for(let img in images){
-        await csrfFetch(`/api/spots/${spot.id}/images`, {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: 'POST',
             body: JSON.stringify({
                 url: images[img],
@@ -64,6 +64,7 @@ export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
         })
     }
     dispatch(addNewSpot(newSpot))
+    return newSpot
 };
 
 
