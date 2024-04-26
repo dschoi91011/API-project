@@ -106,15 +106,9 @@ function OneSpot(){
                                     </div>
                                 ))}
                           
-                                 
                             </div>
                         </div>
-                        {/* {reviews.find(review => review.userId === sessionUser.id) && (<button className='delete-modal-btn' onClick={handleDeleteModal}>Delete</button>)}  */}
-                                {/* {reviews.map(review => (
-                                    review.userId === sessionUser.id && (<button className='delete-modal-btn' onClick={handleDeleteModal}>Delete</button>)
-                                ))} */}
-
-
+    
                         <div className="spot-page-lower-right">
                             <div className='callout-box'>
                                 <div className="callout-box-upper"><h2>Don&apos;t miss out!</h2></div>

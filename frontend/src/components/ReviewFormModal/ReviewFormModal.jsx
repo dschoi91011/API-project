@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import {createReview} from '../../store/reviews';
+// import { fetchASpot } from '../../store/spots';
 import './ReviewFormModal.css';
 
 function ReviewFormModal({spotId}){
@@ -12,9 +13,10 @@ function ReviewFormModal({spotId}){
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const userReview = {review, starRating}
-        await dispatch(createReview(userReview, spotId))
-        closeModal()
+        // setIsLoaded(false);
+        const userReview = {review, stars: Number(starRating)}
+        return dispatch(createReview(userReview, spotId)).then(closeModal)
+
     }
 
     const handleClick = (star) => {
@@ -33,7 +35,7 @@ function ReviewFormModal({spotId}){
 
         <div className='stars-group'>
             {starArr.map((star, i) => (
-                <div key={i} className='star' style={{fontSize: '30px'}} onClick={handleClick}>
+                <div key={i} className='star' style={{fontSize: '30px'}} onClick={() => handleClick(star)}>
                     {star === 1 ? '💩' : star === 2 ? '🙁' : star === 3 ? '😐' : star === 4 ? '🙂' : '🤩'}
                 </div>
                 )

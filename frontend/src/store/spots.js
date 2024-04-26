@@ -39,6 +39,21 @@ export const addNewSpot = newSpot => ({
     payload: newSpot
 });
 
+// export const createSpot = (userInput, images) => async() => {
+//     const res = await csrfFetch('/api/spots', {
+//         method: 'POST',
+//         body: JSON.stringify(userInput)
+//     })
+//     const data = await res.json()
+//     for(let img of images){
+//         await csrfFetch(`/api/spots/${data.id}/images`, {
+//             method: 'POST',
+//             body: JSON.stringify(img)
+//         })
+//     }
+//     return data
+// }
+
 export const createSpot = (userInput, images, prevImg) => async(dispatch) => {
     const res = await csrfFetch('/api/spots', {                 
         method: 'POST',

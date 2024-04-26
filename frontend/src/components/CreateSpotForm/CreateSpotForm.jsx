@@ -14,11 +14,11 @@ function CreateSpotForm(){
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
-    const [mainImg, setMainImg] = useState('')
-    const [smImg1, setSmImg1] = useState('')
-    const [smImg2, setSmImg2] = useState('')
-    const [smImg3, setSmImg3] = useState('')
-    const [smImg4, setSmImg4] = useState('')
+    const [mainImg, setMainImg] = useState({url: '', preview: true})
+    const [smImg1, setSmImg1] = useState({url: '', preview: false})
+    const [smImg2, setSmImg2] = useState({url: '', preview: false})
+    const [smImg3, setSmImg3] = useState({url: '', preview: false})
+    const [smImg4, setSmImg4] = useState({url: '', preview: false})
     const [inputError, setInputError] = useState({})
 
     const hasErrors = () => {
@@ -51,6 +51,13 @@ function CreateSpotForm(){
             const newSpot = await dispatch(createSpot(userInput, images, prevImg))
             redirect(`/${newSpot.id}`)
         }
+        // if(Object.keys(newErr).length === 0){
+        //     const images = [mainImg, smImg1, smImg2, smImg3, smImg4]
+        //     const userInput = {address, city, state, country, name, price, description, lat: 0, lng: 0}
+        //     const newSpot = await dispatch(createSpot(userInput, images))
+        //     if(newSpot) redirect(`/spots/${newSpot.id}`)
+        // }
+
     }
 
     return(
