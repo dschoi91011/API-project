@@ -24,7 +24,6 @@ function ManageSpots(){
         getSpotsData();
     }, [dispatch]);
 
-
     return(
         <div className="user-spots">
         <h1>Manage Spots</h1>
