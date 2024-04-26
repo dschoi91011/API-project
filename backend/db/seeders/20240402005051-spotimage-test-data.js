@@ -12,27 +12,57 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: 'stockphoto.com',
+        url: '/house1.jpg',
         preview: true
       },
       {
         spotId: 1,
-        url: 'spotimage2.com',
+        url: '/house1-inside.jpg',
         preview: false
       },
       {
         spotId: 1,
-        url: 'somethingrandom.com',
+        url: '/house1-inside2.jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: '/house1-inside3.jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: '/house1-inside4.jpg',
         preview: false
       },
       {
         spotId: 2,
-        url: 'spotimage3.com',
+        url: '/house2.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'url-image.com',
+        url: '/house3.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: '/house4.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: '/house5.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: '/house6.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: '/house7.jpg',
         preview: true
       }
     ]);

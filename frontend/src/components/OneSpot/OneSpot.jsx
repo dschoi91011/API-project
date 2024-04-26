@@ -48,13 +48,13 @@ function OneSpot(){
 
                     <div className='spot-imgs-block'>
                         <div className='spot-main-pic-container'>
-                            <img className='spot-main-pic' src="" alt="main-pic"/>
+                            <img className='spot-main-pic' style={{height: '600px', width: '500px'}}src={spot.SpotImages[0]?.url} alt="main-pic"/>
                         </div>
                         <div className='spot-quad-pics-container'>
-                            <img className="spot-quad-pic" src="" alt="small-1" />
-                            <img className="spot-quad-pic" src="" alt="small-2" />
-                            <img className="spot-quad-pic" src="" alt="small-3" />
-                            <img className="spot-quad-pic" src="" alt="small-4" />
+                            <img className="spot-quad-pic" style={{height: '250px', width: 'auto'}} src={spot.SpotImages[1]?.url} alt="small-1" />
+                            <img className="spot-quad-pic" style={{height: '250px', width: 'auto'}} src={spot.SpotImages[2]?.url} alt="small-1" />
+                            <img className="spot-quad-pic" style={{height: '250px', width: 'auto'}} src={spot.SpotImages[3]?.url} alt="small-1" />
+                            <img className="spot-quad-pic" style={{height: '250px', width: 'auto'}} src={spot.SpotImages[4]?.url} alt="small-1" />
                         </div>
                     </div>
 

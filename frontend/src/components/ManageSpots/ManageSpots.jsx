@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 // import {useModal} from "../../context/Modal";
 import DeleteFormModal from "../DeleteFormModal";
 import OpenModalButton from '../OpenModalButton';
+import './ManageSpots.css';
 
 
 function ManageSpots(){
@@ -30,7 +31,7 @@ function ManageSpots(){
         {isLoaded && sessionUser && (
             Object.values(spots).length ? (
             Object.values(spots).map(obj =>(
-            !obj.SpotImages && 
+            // !obj.SpotImages && 
             <div key={obj.id}>
            <NavLink className='spots-navlink' to={`/${obj.id}`}>
             <img className='tile-img' src='' alt={obj.previewImage}/>

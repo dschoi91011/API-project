@@ -16,6 +16,7 @@ function UpdateSpotForm(){
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
+    const [mainImg, setMainImg] = useState('')
     const [inputError, setInputError] = useState({})
     const dispatch = useDispatch()
 
@@ -36,6 +37,7 @@ function UpdateSpotForm(){
             setDescription(spot.description)
             setName(spot.name)
             setPrice(spot.price)
+            setMainImg(spot.SpotImages[0].url)
         }
     }, [spot])
 
@@ -48,6 +50,7 @@ function UpdateSpotForm(){
         if(!name) errorObj.err = 'Name is required'
         if(price < 1) errorObj.err = 'Price per night is required'
         if(description.length < 30) errorObj.description = 'Description needs 30 or more characters'
+        if(!mainImg) errorObj.mainImg = 'Preview image is required'
         setInputError(errorObj)
         
         if(inputError.err){
@@ -62,7 +65,7 @@ function UpdateSpotForm(){
         if(handleErrors() === true){
             return;
         }
-        const updatedObj = {address, city, state, country, description, name, price}
+        const updatedObj = {address, city, state, country, description, name, price, mainImg}
         await dispatch(updateSpot(spotId, updatedObj))
         redirect(`/${spot.id}`)
     }

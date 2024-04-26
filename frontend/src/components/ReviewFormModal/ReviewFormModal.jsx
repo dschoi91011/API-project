@@ -28,7 +28,7 @@ function ReviewFormModal({spotId}){
         <div className='title'>
         <h1>How was your stay?</h1>
         </div>
-        <label htmlFor="user-review"><textarea id='user-review' rows='2' cols='100' 
+        <label htmlFor="user-review"><textarea id='user-review' rows='3' cols='100' style={{margin: '10px 20px'}}
         placeholder='Leave your review here...' value={review} onChange={e => setReview(e.target.value)}/></label>
 
         <div className='stars-group'>
@@ -41,7 +41,7 @@ function ReviewFormModal({spotId}){
         </div>
 
         <div className='button-container'>
-            <button className='submit-button' type='submit' disabled={review.length < 10 || starRating === 0}>Submit Your Review</button>
+            <button className='submit-button' style={{height: '40px', width: '200px'}} type='submit' disabled={review.length < 10 || starRating === 0}>Submit Your Review</button>
         </div>
         </form>
     )

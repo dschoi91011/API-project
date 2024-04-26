@@ -63,7 +63,7 @@
     border-radius: 10px;
     text-align: center;
     padding: 10px 5px;
-    z-index: 100;
+    z-index: 1000;
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.2s;
@@ -77,8 +77,8 @@
 }
 
 .tile-img{
-    width: 200px;
-    height: auto;
+    width: 348px;
+    height: 250px;
 }
 
 .tile-location{

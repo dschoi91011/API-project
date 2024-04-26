@@ -29,7 +29,7 @@ function Spots(){
                     <div className='spot-tile'>
                         <div className="tile-img-container">
                             <div className='tile-tooltip'>
-                                <img className='tile-img' src='' alt={obj.previewImage}/>
+                                <img className='tile-img' src={obj.previewImage} alt='house'/>
                                 <span className='tile-tooltip-text'>{obj.name}</span>
                             </div>
                         </div>
