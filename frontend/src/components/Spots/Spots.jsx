@@ -8,11 +8,7 @@ function Spots(){
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spots.allSpots);
 
-    // console.log('SPOTS!!! ----------> ', spots)
-
     useEffect(() => {
-        // dispatch(fetchSpots()).then(() => {
-        //     setIsLoaded(true);
         async function getSpotsData(){
             await dispatch(fetchSpots());
             setIsLoaded(true);

@@ -19,9 +19,8 @@ function OneSpot(){
     const stateSpot = useSelector(state => state.spots)
     const {setModalContent} = useModal();
 
-    console.log('Reviews from useSelector-----> ', reviews)
-    console.log('OneSpot ----------->', stateSpot)
-    // console.log('OneSpot session user---------->', sessionUser)
+    // console.log('Reviews from useSelector-----> ', reviews)
+    // console.log('OneSpot ----------->', stateSpot)
 
     useEffect(() => {
         async function getSpotData(){
