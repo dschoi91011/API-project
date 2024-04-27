@@ -16,7 +16,6 @@ function OneSpot(){
     const reviews = useSelector(state => state.reviews.reviews);
     const sessionUser = useSelector(state => state.session.user);
 
-    const stateSpot = useSelector(state => state.spots)
     const {setModalContent} = useModal();
 
     // console.log('Reviews from useSelector-----> ', reviews)
