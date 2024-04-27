@@ -13,7 +13,7 @@ function ReviewFormModal({spotId}){
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        // setIsLoaded(false);
+
         const userReview = {review, stars: Number(starRating)}
         return dispatch(createReview(userReview, spotId)).then(closeModal)
 
