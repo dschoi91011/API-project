@@ -40,9 +40,6 @@ function OneSpot(){
         setModalContent(<ReviewFormModal spotId={spotId}/>)
     }
 
-    const handleDeleteModal = () => {
-        setModalContent(<DeleteReviewModal spotId={spotId} reviewId={reviews.id}/>)
-    }
 
     return(
         <div>

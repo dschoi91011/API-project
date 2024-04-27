@@ -1,0 +1,21 @@
+.user-spots{
+    display: grid;
+    grid-template-columns: repeat(3, 350px);
+    column-gap: 40px;
+    row-gap: 40px;
+    justify-content: center;
+}
+
+.tile-spot{
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px black;
+    width: 348px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-around;
+}

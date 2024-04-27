@@ -26,13 +26,13 @@ function ManageSpots(){
     }, [dispatch]);
 
     return(
+        <div>
+        <h1 className="title">Manage Spots</h1>
         <div className="user-spots">
-        <h1>Manage Spots</h1>
         {isLoaded && sessionUser && (
             Object.values(spots).length ? (
             Object.values(spots).map(obj =>(
-            // !obj.SpotImages && 
-            <div key={obj.id}>
+            <div className="tile-spot" key={obj.id}>
            <NavLink className='spots-navlink' to={`/${obj.id}`}>
             <img className='tile-img' src='' alt={obj.previewImage}/>
             <h3 className='tile-location'>{obj.city}, {obj.state}</h3>
@@ -40,15 +40,16 @@ function ManageSpots(){
             <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
             <p className='tile-price'>{`${obj.price} / night`}</p>
            </NavLink>
+           <div className="buttons">
             <button className='update-spot' onClick={() => redirect(`/${obj.id}/update`)}>Update</button>
             <OpenModalButton
                 className='delete-spot'
                 buttonText='Delete'
                 modalComponent={<DeleteFormModal spotId={obj.id}/>}
-            />
+            /></div>
             </div>)))
         : (<NavLink to='/spots/new'>Create a New Spot</NavLink>)
-        )}
+        )}</div>
         </div>
     )
 }
