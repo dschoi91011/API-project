@@ -30,6 +30,7 @@ html{
     text-decoration: none;
     border: 1px solid black;
     /* position: relative; */
+    background-color: rgb(238, 238, 238);
     left: 50%;
 }
 

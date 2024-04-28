@@ -2,7 +2,7 @@ import { useModal } from '../../context/Modal';
 import { useDispatch } from 'react-redux';
 import {deleteReview, fetchReviews} from '../../store/reviews';
 import { fetchASpot } from '../../store/spots';
-
+import './DeleteReviewModal.css';
 
 function DeleteReviewModal({reviewId, spotId}){
 
@@ -20,11 +20,15 @@ function DeleteReviewModal({reviewId, spotId}){
 
 
     return(
-        <div>
-            <h1>Confirm Delete</h1>
+        <div className='modal-container'>
+            <div className='title'>
+                <h1>Confirm Delete</h1>
+            </div>
             <p>Are you sure you want to delete this review?</p>
-            <button onClick={(e) => handleSubmit(e)}>Yes (Delete Review)</button>
-            <button onClick={closeModal}>No (Keep Review)</button>
+            <div className='buttons-container'>
+                <button id='yes-btn' onClick={(e) => handleSubmit(e)}>Yes (Delete Review)</button>
+                <button id='no-btn' onClick={closeModal}>No (Keep Review)</button>
+            </div>
         </div>
     )
 }

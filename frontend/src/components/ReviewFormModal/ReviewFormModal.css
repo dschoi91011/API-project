@@ -16,3 +16,12 @@
     align-items: center;
     padding: 20px 0px;
 }
+
+.star{
+    opacity: 0.3;
+}
+
+.star:hover{
+    opacity: 1;
+    cursor: pointer;
+}

@@ -1,14 +1,33 @@
+
+
 .sign-up-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
-    height: 200px;
+    height: 300px;
     width: 400px;
 }
 
-.title{
+.info-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.title-container{
     display: flex;
     justify-content: center;
+}
+
+.title{
+    margin-bottom: 0px;
+}
+
+#sign-up-button{
+    box-shadow: 2px 2px 2px black;
+    height: 30px;
+    width: 100px;
 }

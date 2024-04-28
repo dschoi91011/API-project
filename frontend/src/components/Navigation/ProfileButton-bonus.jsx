@@ -45,7 +45,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
+      <button onClick={toggleMenu} style={{height: '22px', width: '50px'}}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -55,21 +55,25 @@ function ProfileButton({ user }) {
             <p>{user.email}</p>
             <p><NavLink style={{textDecoration: 'none'}} to='/spots/current'>Manage Spots</NavLink></p>
             <p>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={logout} style={{width: '100px'}}>Log Out</button>
             </p>
           </div>
         ) : (
           <div className='dropdown-menu'>
+            <div className='login-btn'>
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
+            </div>
+            <div className='signup-btn'>
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
+            </div>
           </div>
         )}
       </ul>
