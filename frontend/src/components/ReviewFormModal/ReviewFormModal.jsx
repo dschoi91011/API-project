@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import {createReview} from '../../store/reviews';
-// import { fetchASpot } from '../../store/spots';
+import {createReview, fetchReviews} from '../../store/reviews';
+import { fetchASpot } from '../../store/spots';
 import './ReviewFormModal.css';
 
 function ReviewFormModal({spotId}){
@@ -15,8 +15,12 @@ function ReviewFormModal({spotId}){
         e.preventDefault();
 
         const userReview = {review, stars: Number(starRating)}
-        return dispatch(createReview(userReview, spotId)).then(closeModal)
 
+        // return dispatch(createReview(userReview, spotId)).then(closeModal)
+        await dispatch(createReview(userReview, spotId))
+        await dispatch(fetchASpot(spotId))
+        await dispatch(fetchReviews(spotId))
+        closeModal()
     }
 
     const handleClick = (star) => {
