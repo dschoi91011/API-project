@@ -38,12 +38,14 @@ function ManageSpots(){
                         <img className='tile-img' src={obj.previewImage} alt='previewImage'/>
                     </div>
                     <h3 className='tile-location'>{obj.city}, {obj.state}</h3>
-                    <div className="info-group">
+                    <div className="tile-footer">
                         <div className="avg-rating-group">
                             <img className='tile-star' src="/black-star.jpg" alt="img"/>
                             <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
                         </div>
-                        <p className='tile-price'>{`${obj.price} / night`}</p>
+                        <div className="tile-price-container">
+                            <p className='tile-price'>{`${obj.price} / night`}</p>
+                        </div>
                     </div>
                 </NavLink>
                 <div className="buttons">
