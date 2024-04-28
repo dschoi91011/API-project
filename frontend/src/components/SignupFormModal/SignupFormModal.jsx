@@ -42,7 +42,7 @@ function SignupFormModal() {
   };
 
   return (
-    <div className='modal-container'>
+    <div id='modal-container'>
       <div className='title-container'>
       <h1 className='title'>Sign Up</h1>
       </div>
