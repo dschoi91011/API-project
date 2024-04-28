@@ -44,9 +44,9 @@ function CreateSpotForm(){
             const images = {smImg1, smImg2, smImg3, smImg4}
             const prevImg = mainImg
 
-            for(let img in images){
-                if(!img) images[img] = 'include pic here'
-            }
+            // for(let img in images){
+            //     if(!img) images[img] = '/chicken-no-img.jpg'
+            // }
 
             const newSpot = await dispatch(createSpot(userInput, images, prevImg))
             redirect(`/${newSpot.id}`)
@@ -67,7 +67,7 @@ function CreateSpotForm(){
         <div id='create-spot-form-section1'>
             <h3 className='section-form-title'>Where&apos;s your place located?</h3>
             <p className='section-caption'>Guests will only get your exact address once they booked a reservation.</p>
-            <label htmlFor="country"><input id="country" type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/></label>
+            <label htmlFor="country"><input id="country" type="text" placeholder="Country" style={{width: '400px'}} value={country} onChange={e => setCountry(e.target.value)}/></label>
             {inputError.country && <p style={{color: 'red'}}>{inputError.country}</p>}
             <label htmlFor="address"><input id="address" type="text" placeholder="Street Address" value={address} onChange={e => setAddress(e.target.value)}/></label>
             {inputError.address && <p style={{color: 'red'}}>{inputError.address}</p>}
@@ -105,10 +105,16 @@ function CreateSpotForm(){
             <label htmlFor="main-img"><input id="main-img" type="text" placeholder="Preview Image URL" value={mainImg} onChange={e => setMainImg(e.target.value)}/></label>
             {inputError.mainImg && <p style={{color: 'red'}}>{inputError.mainImg}</p>}
 
-            <label htmlFor="img1"><input id="img1" type="text" placeholder="Image URL" value={smImg1} onChange={e => setSmImg1(e.target.value)}/></label>
-            <label htmlFor="img2"><input id="img2" type="text" placeholder="Image URL" value={smImg2} onChange={e => setSmImg2(e.target.value)}/></label>
-            <label htmlFor="img3"><input id="img3" type="text" placeholder="Image URL" value={smImg3} onChange={e => setSmImg3(e.target.value)}/></label>
-            <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" value={smImg4} onChange={e => setSmImg4(e.target.value)}/></label>
+            <label htmlFor="img1"><input id="img1" type="text" placeholder="Image URL" 
+            value={smImg1 === '' ? '' : smImg1} defaultValue={smImg1 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg1(e.target.value)}/></label>
+            <label htmlFor="img2"><input id="img2" type="text" placeholder="Image URL" 
+            value={smImg2 === '' ? '' : smImg2} defaultValue={smImg2 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg2(e.target.value)}/></label>
+            <label htmlFor="img3"><input id="img3" type="text" placeholder="Image URL" 
+            value={smImg3 === '' ? '' : smImg3} defaultValue={smImg3 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg3(e.target.value)}/></label>
+            <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" 
+            value={smImg4 === '' ? '' : smImg4} defaultValue={smImg4 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg4(e.target.value)}/></label>
+
+            {/* <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" value={smImg4} onChange={e => setSmImg4(e.target.value)}/></label> */}
 
         </div>
         <button type='submit'>Create Spot</button>
