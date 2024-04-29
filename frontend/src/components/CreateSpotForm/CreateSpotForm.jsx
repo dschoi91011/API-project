@@ -62,56 +62,56 @@ function CreateSpotForm(){
 
     return(
         <form onSubmit={handleSubmit}>
-        <h1>Create a New Spot</h1>
+        <h1 style={{fontSize: '40px'}}>Create a New Spot</h1>
 
         <div id='create-spot-form-section1'>
-            <h3 className='section-form-title'>Where&apos;s your place located?</h3>
-            <p className='section-caption'>Guests will only get your exact address once they booked a reservation.</p>
-            <label htmlFor="country"><input id="country" type="text" placeholder="Country" style={{width: '400px'}} value={country} onChange={e => setCountry(e.target.value)}/></label>
-            {inputError.country && <p style={{color: 'red'}}>{inputError.country}</p>}
-            <label htmlFor="address"><input id="address" type="text" placeholder="Street Address" value={address} onChange={e => setAddress(e.target.value)}/></label>
-            {inputError.address && <p style={{color: 'red'}}>{inputError.address}</p>}
-            <label htmlFor="city"><input id="city" type="text" placeholder="City" value={city} onChange={e => setCity(e.target.value)}/></label>
-            {inputError.city && <p style={{color: 'red'}}>{inputError.city}</p>}
-            <label htmlFor="state"><input id="state" type="text" placeholder="State" value={state} onChange={e => setState(e.target.value)}/></label>
-            {inputError.state && <p style={{color: 'red'}}>{inputError.state}</p>}
+            <h3 className='section-form-title' style={{fontSize: '30px'}}>Where&apos;s your place located?</h3>
+            <p className='section-caption' style={{fontSize: '25px'}}>Guests will only get your exact address once they booked a reservation.</p>
+            <label htmlFor="country"><input id="country" type="text" placeholder="Country" style={{height: '30px', width: '300px', fontSize: '25px'}} value={country} onChange={e => setCountry(e.target.value)}/></label>
+            {inputError.country && <p style={{color: 'red', fontSize: '22px'}}>{inputError.country}</p>}
+            <label htmlFor="address"><input id="address" type="text" placeholder="Street Address" style={{height: '30px', width: '300px', fontSize: '25px'}} value={address} onChange={e => setAddress(e.target.value)}/></label>
+            {inputError.address && <p style={{color: 'red', fontSize: '22px'}}>{inputError.address}</p>}
+            <label htmlFor="city"><input id="city" type="text" placeholder="City" style={{height: '30px', width: '300px', fontSize: '25px'}} value={city} onChange={e => setCity(e.target.value)}/></label>
+            {inputError.city && <p style={{color: 'red', fontSize: '22px'}}>{inputError.city}</p>}
+            <label htmlFor="state"><input id="state" type="text" placeholder="State" style={{height: '30px', width: '300px', fontSize: '25px'}} value={state} onChange={e => setState(e.target.value)}/></label>
+            {inputError.state && <p style={{color: 'red', fontSize: '22px'}}>{inputError.state}</p>}
 
         </div>
         <div id='create-spot-form-section2'>
-            <h3 className='section-form-title'>Describe your place to guests</h3>
-            <p className='section-caption'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
-            <label htmlFor="description"><textarea id="description" rows='2' cols='100' placeholder="Please write at least 30 characters" value={description}
+            <h3 className='section-form-title' style={{fontSize: '30px'}}>Describe your place to guests</h3>
+            <p className='section-caption' style={{fontSize: '25px'}}>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
+            <label htmlFor="description"><textarea id="description" rows='2' cols='150' placeholder="Please write at least 30 characters" style={{fontSize: '25px'}}value={description}
             onChange={e => setDescription(e.target.value)}/></label>
-            {inputError.description && <p style={{color: 'red'}}>{inputError.description}</p>}
+            {inputError.description && <p style={{color: 'red', fontSize: '22px'}}>{inputError.description}</p>}
 
         </div>
         <div id='create-spot-form-section3'>
-            <h3 className='section-form-title'>Create a title for your spot</h3>
-            <p className='section-caption'>Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
-            <label htmlFor="spotname"><input id="spotname" type="text" placeholder="Name of your spot" value={name} onChange={e => setName(e.target.value)}/></label>
-            {inputError.name && <p style={{color: 'red'}}>{inputError.name}</p>}
+            <h3 className='section-form-title' style={{fontSize: '30px'}}>Create a title for your spot</h3>
+            <p className='section-caption' style={{fontSize: '25px'}}>Catch guests&apos; attention with a spot title that highlights what makes your place special.</p>
+            <label htmlFor="spotname"><input id="spotname" type="text" placeholder="Name of your spot" style={{height: '30px', width: '300px', fontSize: '25px'}} value={name} onChange={e => setName(e.target.value)}/></label>
+            {inputError.name && <p style={{color: 'red', fontSize: '22px'}}>{inputError.name}</p>}
 
         </div>
         <div id='create-spot-form-section4'>
-            <h3 className='section-form-title'>Set a base price for your spot</h3>
-            <p className='section-caption'>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-            <label htmlFor="price"><input id="price" type="number" placeholder="Price per night (USD)" value={price} onChange={e => setPrice(e.target.value)}/></label>
-            {inputError.price && <p style={{color: 'red'}}>{inputError.price}</p>}
+            <h3 className='section-form-title' style={{fontSize: '30px'}}>Set a base price for your spot</h3>
+            <p className='section-caption' style={{fontSize: '25px'}}>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+            <label htmlFor="price"><input id="price" type="number" placeholder="Price per night (USD)" style={{height: '30px', width: '300px', fontSize: '25px'}} value={price} onChange={e => setPrice(e.target.value)}/></label>
+            {inputError.price && <p style={{color: 'red', fontSize: '22px'}}>{inputError.price}</p>}
 
         </div>
         <div id='create-spot-form-section5'>
-            <h3 className='section-form-title'>Liven up your spot with photos</h3>
-            <p className='section-caption'>Submit a link to at least one photo to publish your spot.</p>
-            <label htmlFor="main-img"><input id="main-img" type="text" placeholder="Preview Image URL" value={mainImg} onChange={e => setMainImg(e.target.value)}/></label>
-            {inputError.mainImg && <p style={{color: 'red'}}>{inputError.mainImg}</p>}
+            <h3 className='section-form-title' style={{fontSize: '30px'}}>Liven up your spot with photos</h3>
+            <p className='section-caption' style={{fontSize: '25px'}}>Submit a link to at least one photo to publish your spot.</p>
+            <label htmlFor="main-img"><input id="main-img" type="text" placeholder="Preview Image URL" style={{height: '30px', width: '300px', fontSize: '25px'}} value={mainImg} onChange={e => setMainImg(e.target.value)}/></label>
+            {inputError.mainImg && <p style={{color: 'red', fontSize: '22px'}}>{inputError.mainImg}</p>}
 
-            <label htmlFor="img1"><input id="img1" type="text" placeholder="Image URL" 
+            <label htmlFor="img1"><input id="img1" type="text" placeholder="Image URL" style={{height: '30px', width: '300px', fontSize: '25px'}}
             value={smImg1 === '' ? '' : smImg1} defaultValue={smImg1 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg1(e.target.value)}/></label>
-            <label htmlFor="img2"><input id="img2" type="text" placeholder="Image URL" 
+            <label htmlFor="img2"><input id="img2" type="text" placeholder="Image URL" style={{height: '30px', width: '300px', fontSize: '25px'}}
             value={smImg2 === '' ? '' : smImg2} defaultValue={smImg2 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg2(e.target.value)}/></label>
-            <label htmlFor="img3"><input id="img3" type="text" placeholder="Image URL" 
+            <label htmlFor="img3"><input id="img3" type="text" placeholder="Image URL" style={{height: '30px', width: '300px', fontSize: '25px'}}
             value={smImg3 === '' ? '' : smImg3} defaultValue={smImg3 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg3(e.target.value)}/></label>
-            <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" 
+            <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" style={{height: '30px', width: '300px', fontSize: '25px'}}
             value={smImg4 === '' ? '' : smImg4} defaultValue={smImg4 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg4(e.target.value)}/></label>
 
             {/* <label htmlFor="img1"><input id="img1" type="text" placeholder="Image URL" value={smImg1} onChange={e => setSmImg4(e.target.value)}/></label>
@@ -120,7 +120,7 @@ function CreateSpotForm(){
             <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" value={smImg4} onChange={e => setSmImg4(e.target.value)}/></label> */}
 
         </div>
-        <button type='submit'>Create Spot</button>
+        <button type='submit' style={{height: '40px', width: '100px', fontSize: '25px', margin: '20px 0px'}}>Create Spot</button>
         </form>
     )
 }

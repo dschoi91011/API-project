@@ -16,11 +16,11 @@ function DeleteFormModal({spotId}){
 
     return(
         <div className='modal-container'>
-            <h1 className='title'>Confirm Delete</h1>
-            <p>Are you sure you want to remove this spot?</p>
+            <h1 className='title' style={{fontSize: '40px'}}>Confirm Delete</h1>
+            <p style={{fontSize: '30px'}}>Are you sure you want to remove this spot?</p>
             <div className='buttons-container'>
-                <button id='yes-btn' onClick={handleSubmit}>Yes (Delete Spot)</button>
-                <button id='no-btn' onClick={closeModal}>No (Keep Spot)</button>
+                <button id='yes-btn' style={{fontSize: '23px'}} onClick={handleSubmit}>Yes (Delete Spot)</button>
+                <button id='no-btn' style={{fontSize: '23px'}} onClick={closeModal}>No (Keep Spot)</button>
             </div>
         </div>
 

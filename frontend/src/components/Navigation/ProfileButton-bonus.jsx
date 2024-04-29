@@ -7,6 +7,7 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import './ProfileButton-bonus.css';
 
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const redirect = useNavigate();
@@ -45,29 +46,29 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu} style={{height: '22px', width: '50px'}}>
+      <button onClick={toggleMenu} style={{height: '35px', width: '50px'}}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <div className='user-profile'>
-            <p>Hello, {user.firstName}</p>
-            <p>{user.email}</p>
-            <p><NavLink style={{textDecoration: 'none'}} to='/spots/current'>Manage Spots</NavLink></p>
+            <p style={{fontSize: '23px'}}>Hello, {user.firstName}</p>
+            <p style={{fontSize: '23px'}}>{user.email}</p>
+            <p><NavLink style={{fontSize: '23px', textDecoration: 'none'}} to='/spots/current'>Manage Spots</NavLink></p>
             <p>
-              <button onClick={logout} style={{width: '100px'}}>Log Out</button>
+              <button onClick={logout} style={{fontSize: '23px' ,width: '100px'}}>Log Out</button>
             </p>
           </div>
         ) : (
           <div className='dropdown-menu'>
-            <div className='login-btn'>
+            <div className='login-btn' style={{fontSize: '23px'}}>
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
             </div>
-            <div className='signup-btn'>
+            <div className='signup-btn' style={{fontSize: '23px'}}>
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}

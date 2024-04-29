@@ -1,15 +1,12 @@
 
-#modal-container{
-    height: 400px;
-}
 
 .sign-up-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
-    width: 400px;
+    height: 400px;
+    width: 450px;
 
 }
 
@@ -27,12 +24,12 @@
     justify-content: center;
 }
 
-.title{
+#title{
     margin-bottom: 0px;
 }
 
 #sign-up-button{
     box-shadow: 2px 2px 2px black;
-    height: 30px;
+    height: 40px;
     width: 100px;
 }

@@ -27,7 +27,7 @@ function ManageSpots(){
 
     return(
         <div>
-        <h1 className="title">Manage Spots</h1>
+        <h1 className="title" style={{fontSize: '40px'}}>Manage Spots</h1>
         <div className="user-spots">
         {isLoaded && sessionUser && (
             Object.values(spots).length ? (
@@ -37,19 +37,20 @@ function ManageSpots(){
                     <div className="tile-img-container">
                         <img className='tile-img' src={obj.previewImage} alt='previewImage'/>
                     </div>
-                    <h3 className='tile-location'>{obj.city}, {obj.state}</h3>
+                    <h3 className='tile-location' style={{fontSize: '25px'}}>{obj.city}, {obj.state}</h3>
                     <div className="tile-footer">
                         <div className="avg-rating-group">
                             <img className='tile-star' src="/black-star.jpg" alt="img"/>
-                            <h3 className='tile-avg-rating'>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
+                            <h3 className='tile-avg-rating' style={{fontSize: '25px'}}>{typeof obj.avgRating === 'number' ? obj.avgRating.toFixed(1) : 'New'}</h3>
                         </div>
                         <div className="tile-price-container">
-                            <p className='tile-price'>{`${obj.price} / night`}</p>
+                            <p className='tile-price' style={{fontSize: '25px'}}>{`${obj.price} / night`}</p>
                         </div>
                     </div>
                 </NavLink>
+
                 <div className="buttons">
-                    <button className='update-spot' onClick={() => redirect(`/${obj.id}/update`)}>Update</button>
+                    <button className='update-spot' onClick={() => redirect(`/${obj.id}/update`)} style={{fontSize: '25px', width: '100px'}}>Update</button>
                     <OpenModalButton
                         className='delete-spot'
                         buttonText='Delete'

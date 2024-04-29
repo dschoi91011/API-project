@@ -44,8 +44,8 @@ function OneSpot(){
             {isLoaded && spot &&
             
                 <div id='spotbyid'>
-                    <h1 className="spot-name">{spot.name}</h1>
-                    <h3 className="spot-location">{spot.city}, {spot.state}, {spot.country}</h3>
+                    <h1 className="spot-name" style={{fontSize: '40px'}}>{spot.name}</h1>
+                    <h3 className="spot-location" style={{fontSize: '28px'}}>{spot.city}, {spot.state}, {spot.country}</h3>
 
                     <div className='spot-imgs-block'>
                         <div className='spot-main-pic-container'>
@@ -61,27 +61,27 @@ function OneSpot(){
 
                     <div className="spot-page-lower">
                         <div className="spot-page-lower-left">
-                            <p className="spot-host">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
-                            <p className="spot-description">Hi-lights: {spot.description}</p>
+                            <p className="spot-host" style={{fontSize: '28px'}}>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
+                            <p className="spot-description" style={{fontSize: '25px'}}>Hi-lights: {spot.description}</p>
 
-                            {!spot.numReviews ? <p>New</p> : 
-                            spot.numReviews === 1 ? <p className="det-rev-sum"><img className="details-black-star" src='/black-star.jpg'/> 
+                            {!spot.numReviews ? <p style={{fontSize: '25px'}}>New</p> : 
+                            spot.numReviews === 1 ? <p className="det-rev-sum" style={{fontSize: '25px'}}><img className="details-black-star" src='/black-star.jpg'/>
                             {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p> :
-                            <p className="det-rev-sum"><img className='details-black-star' src='/black-star.jpg'/> 
+                            <p className="det-rev-sum" style={{fontSize: '25px'}}><img className='details-black-star' src='/black-star.jpg'/> 
                             {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews</p>}
 
                             <div className='spot-review-list'>
                                 {!reviews.length && sessionUser && sessionUser.id !== spot.Owner.id ? 
                                 (
                                 <>
-                                    <p>Be the first to post a review!</p>
-                                    <button onClick={handleReviewModal}>Post Your Review</button>
+                                    <p style={{fontSize: '25px'}}>Be the first to post a review!</p>
+                                    <button onClick={handleReviewModal} style={{fontSize: '25px'}}>Post Your Review</button>
                                 </>
                                 ) : (
                                 <>
-                                    <p className="spot-reviews-subtitle">Reviews:</p>
+                                    <p className="spot-reviews-subtitle" style={{fontSize: '25px'}}>Reviews:</p>
                                     {sessionUser && sessionUser.id !== spot.Owner.id && !reviews.find(obj => obj.userId === sessionUser.id) && 
-                                    (<button onClick={handleReviewModal}>Post Your Review</button>)}
+                                    (<button onClick={handleReviewModal} style={{fontSize: '25px'}}>Post Your Review</button>)}
                                 </>
                                 )}
                                 
@@ -89,15 +89,15 @@ function OneSpot(){
                                 reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                                 .map((review, index) => (
                                     <div key={index}>
-                                        <p>Reviewer: {review.User.firstName}</p>
-                                        <p>Date of review: {new Date(review.createdAt).toLocaleString("default", { month: "long", year: "numeric" })}</p>
-                                        <p>Comments: {review.review}</p>
-                                        <p>Rating: {review.stars}</p>
+                                        <p style={{fontSize: '25px'}}>Reviewer: {review.User.firstName}</p>
+                                        <p style={{fontSize: '25px'}}>Date of review: {new Date(review.createdAt).toLocaleString("default", { month: "long", year: "numeric" })}</p>
+                                        <p style={{fontSize: '25px'}}>Comments: {review.review}</p>
+                                        <p style={{fontSize: '25px'}}>Rating: {review.stars}</p>
                                         
                                         {sessionUser && review.userId === sessionUser.id && 
                                         (<OpenModalButton className='delete-spot' buttonText='Delete' modalComponent={<DeleteReviewModal spotId={spotId} reviewId={review.id}/>}/>)}
                                         
-                                        <p>_______________</p>
+                                        <p>____________________________________________________</p>
                                     </div>
                                 ))}
                           
@@ -106,20 +106,20 @@ function OneSpot(){
     
                         <div className="spot-page-lower-right">
                             <div className='callout-box'>
-                                <div className="callout-box-upper"><h2>Don&apos;t miss out!</h2></div>
+                                <div className="callout-box-upper"><h2 style={{fontSize: '40px'}}>Don&apos;t miss out!</h2></div>
                                 <div className='callout-box-mid'>
                                     <div className="callout-right-text">
-                                        {!spot.numReviews ? <p className="callout-review-group">New</p> : 
-                                        spot.numReviews === 1 ? (<p className="callout-review-group"><img className="callout-black-star" src='/black-star.jpg'/>
+                                        {!spot.numReviews ? <p className="callout-review-group" style={{fontSize: '30px'}}>New</p> : 
+                                        spot.numReviews === 1 ? (<p className="callout-review-group" style={{fontSize: '30px'}}><img className="callout-black-star" src='/black-star.jpg'/>
                                         {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Review</p>) : 
-                                        <p className="callout-review-group">
+                                        <p className="callout-review-group" style={{fontSize: '30px'}}>
                                             <img className="callout-black-star" src='/black-star.jpg'/>
                                             {spot.avgStarRating.toFixed(1)} &#183; {spot.numReviews} Reviews
                                         </p>}
                                     </div>
-                                    <p className="callout-right-price">{`$${spot.price} / night`}</p>
+                                    <p className="callout-right-price" style={{fontSize: '30px'}}>{`$${spot.price} / night`}</p>
                                 </div>
-                                <button className='callout-box-reserve' onClick={reserveClick}>Reserve</button>
+                                <button className='callout-box-reserve' onClick={reserveClick} style={{fontSize: '30px'}}>Reserve</button>
                             </div>
                         </div>
                     </div>

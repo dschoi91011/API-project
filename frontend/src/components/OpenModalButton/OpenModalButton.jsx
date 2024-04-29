@@ -14,7 +14,7 @@ function OpenModalButton({
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button onClick={onClick}>{buttonText}</button>;
+  return <button style={{fontSize: '25px', width: '100px'}} onClick={onClick}>{buttonText}</button>;
 }
 
 export default OpenModalButton;

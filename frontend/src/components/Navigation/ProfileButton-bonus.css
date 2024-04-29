@@ -2,8 +2,8 @@
     border: 1px solid black;
     z-index: 20;
     background-color: white;
-    height: 200px;
-    width: 150px;
+    height: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,18 +11,21 @@
 
 .dropdown-menu{
     border: 1px solid black;
-    height: 80px;
+    height: 100px;
     width: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    background-color: white;
 }
 
 .login-btn:hover{
     font-weight: bold;
+    cursor: pointer;
 }
 
 .signup-btn:hover{
     font-weight: bold;
+    cursor: pointer;
 }

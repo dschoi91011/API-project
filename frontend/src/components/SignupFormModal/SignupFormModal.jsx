@@ -42,76 +42,76 @@ function SignupFormModal() {
   };
 
   return (
-    <div id='modal-container'>
+    <div id='modal-container' style={{height: '600px'}}>
       <div className='title-container'>
-      <h1 className='title'>Sign Up</h1>
+      <h1 id='title' style={{fontSize: '40px'}}>Sign Up</h1>
       </div>
       <form onSubmit={handleSubmit}>
         <div className='sign-up-container'>
           <div className='info-group'>
-        <label>
+        <label style={{fontSize: '25px'}}>
           Email
-          <input style={{marginLeft: '112px'}}
+          <input style={{fontSize: '20px', marginLeft: '112px'}}
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
+        {errors.email && <p style={{fontSize: '25px', color: 'red'}}>{errors.email}</p>}
+        <label style={{fontSize: '25px'}}>
           Username
-          <input style={{marginLeft: '85px'}}
+          <input style={{fontSize: '20px', marginLeft: '85px'}}
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
+        {errors.username && <p style={{fontSize: '25px', color: 'red'}}>{errors.username}</p>}
+        <label style={{fontSize: '25px'}}>
           First Name
-          <input style={{marginLeft: '77px'}}
+          <input style={{fontSize: '20px', marginLeft: '77px'}}
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
+        {errors.firstName && <p style={{fontSize: '25px', color: 'red'}}>{errors.firstName}</p>}
+        <label style={{fontSize: '25px'}}>
           Last Name
-          <input style={{marginLeft: '80px'}}
+          <input style={{fontSize: '20px', marginLeft: '80px'}}
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
+        {errors.lastName && <p style={{fontSize: '25px', color: 'red'}}>{errors.lastName}</p>}
+        <label style={{fontSize: '25px'}}>
           Password
-          <input style={{marginLeft: '88px'}}
+          <input style={{fontSize: '20px', marginLeft: '88px'}}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
+        {errors.password && <p style={{fontSize: '25px', color: 'red'}}>{errors.password}</p>}
+        <label style={{fontSize: '25px'}}>
           Confirm Password
-          <input style={{marginLeft: '30px'}}
+          <input style={{fontSize: '20px', marginLeft: '30px'}}
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <p style={{fontSize: '25px', color: 'red'}}>{errors.confirmPassword}</p>}
         </div>
         <button 
-        id='sign-up-button' style={{marginTop: '30px'}}
+        id='sign-up-button' style={{fontSize: '25px', marginTop: '30px'}}
         type="submit"
         disabled={
           !email || !username || !firstName || !lastName || !password || !confirmPassword ||

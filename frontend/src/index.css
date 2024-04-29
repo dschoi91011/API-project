@@ -1,4 +1,7 @@
 /* TODO: Add sitewide styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
 html{
     max-width: 1200px;
     margin: 0 auto;
@@ -6,6 +9,8 @@ html{
 
 *{
     color: black;
+    font-family: "Amatic SC", sans-serif;
+    font-weight: bolder;
 }
 
 .spots-navlink{
@@ -31,6 +36,7 @@ html{
     border: 1px solid black;
     /* position: relative; */
     background-color: rgb(238, 238, 238);
+    font-size: 28px;
     left: 50%;
 }
 
@@ -62,7 +68,8 @@ html{
 .tile-tooltip-text{
     visibility: hidden;
     position: absolute;
-    width: 100px;
+    width: 150px;
+    font-size: 25px;
     background-color: azure;
     color: lightcoral;
     box-shadow: 0px 0px 5px 5px lightcoral;
@@ -154,10 +161,10 @@ html{
     padding: 40px 50px;
 }
 
-.spot-host{
+/* .spot-host{
     font-size: 20px;
     font-weight: bolder;
-}
+} */
 
 .spot-description{
     padding-right: 20px;
@@ -169,15 +176,16 @@ html{
 }
 
 .details-black-star{
-    height: 13px;
+    height: 20px;
     width: auto;
     padding-right: 5px;
 }
 
-.spot-reviews-subtitle{
-    font-size: 20px;
+/* .spot-reviews-subtitle{
+    font-size: 25px;
     font-weight: bolder;
-}
+} */
+
 
 .callout-box{
     border: 1px solid black;
@@ -185,7 +193,7 @@ html{
     flex-direction: column;
     align-items: center;
     margin: 10px 10px;
-    height: 250px;
+    height: 320px;
     width: 480px;
 }
 
@@ -203,17 +211,14 @@ html{
 .callout-review-group{
     display: flex;
     align-items: center;
-    font-size: 22px;
     padding-right: 40px;
 }
 
 .callout-right-price{
     padding-left: 30px;
-    font-size: 22px;
 }
 
 .callout-box-reserve{
-    font-size: 15px;
     width: 350px;
     height: 40px;
     margin-top: 10px;

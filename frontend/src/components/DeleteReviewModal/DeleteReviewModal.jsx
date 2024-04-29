@@ -20,14 +20,14 @@ function DeleteReviewModal({reviewId, spotId}){
 
 
     return(
-        <div className='modal-container'>
+        <div id='modal-container'>
             <div className='title'>
-                <h1>Confirm Delete</h1>
+                <h1 style={{fontSize: '40px'}}>Confirm Delete</h1>
             </div>
-            <p>Are you sure you want to delete this review?</p>
+            <p style={{fontSize: '30px'}}>Are you sure you want to delete this review?</p>
             <div className='buttons-container'>
-                <button id='yes-btn' onClick={(e) => handleSubmit(e)}>Yes (Delete Review)</button>
-                <button id='no-btn' onClick={closeModal}>No (Keep Review)</button>
+                <button id='yes-btn' style={{fontSize: '23px'}} onClick={(e) => handleSubmit(e)}>Yes (Delete Review)</button>
+                <button id='no-btn' style={{fontSize: '23px'}} onClick={closeModal}>No (Keep Review)</button>
             </div>
         </div>
     )

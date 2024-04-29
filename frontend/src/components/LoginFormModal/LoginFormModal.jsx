@@ -40,6 +40,7 @@ function LoginFormModal() {
           Username or Email
           <input
             type="text"
+            style={{fontSize: '23px'}}
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
@@ -49,27 +50,32 @@ function LoginFormModal() {
           Password
           <input
             type="password"
+            style={{fontSize: '23px'}}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.credential && <p>The provided credentials were invalid</p>}
+        {errors.credential && <p style={{fontSize: '23px', color: 'red'}}>The provided credentials were invalid</p>}
+
+        <div className='btns-container'>
         <button 
         id='log-in-button'
         type="submit"
         disabled={credential.length < 4 || password.length < 6}
         >Log In
         </button>
-      </form>
-      </div>
-      <div className='demo-btn-container'>
-      <button
+
+        <button
         id='log-in-demo-button'
         onClick={demoUserClick}
         >Log in as Demo User
-      </button>
+        </button>
+        </div>
+
+      </form>
       </div>
+
     
     </>
   );

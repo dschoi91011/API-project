@@ -1,6 +1,6 @@
-.modal-container{
-    height: 250px;
-    width: 350px;
+#modal-container{
+    height: 400px;
+    width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
