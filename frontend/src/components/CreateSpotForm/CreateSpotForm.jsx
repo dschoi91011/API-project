@@ -114,7 +114,10 @@ function CreateSpotForm(){
             <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" 
             value={smImg4 === '' ? '' : smImg4} defaultValue={smImg4 === '' ? '/chicken-no-img.jpg' : undefined} onChange={e => setSmImg4(e.target.value)}/></label>
 
-            {/* <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" value={smImg4} onChange={e => setSmImg4(e.target.value)}/></label> */}
+            {/* <label htmlFor="img1"><input id="img1" type="text" placeholder="Image URL" value={smImg1} onChange={e => setSmImg4(e.target.value)}/></label>
+            <label htmlFor="img2"><input id="img2" type="text" placeholder="Image URL" value={smImg2} onChange={e => setSmImg4(e.target.value)}/></label>
+            <label htmlFor="img3"><input id="img3" type="text" placeholder="Image URL" value={smImg3} onChange={e => setSmImg4(e.target.value)}/></label>
+            <label htmlFor="img4"><input id="img4" type="text" placeholder="Image URL" value={smImg4} onChange={e => setSmImg4(e.target.value)}/></label> */}
 
         </div>
         <button type='submit'>Create Spot</button>

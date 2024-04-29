@@ -11,8 +11,107 @@ const {Op} = require('sequelize');
 
 const router = express.Router();
 
-//Get all spots----------------------------------------------------------
-router.get('/', async (req, res, next) => {
+//Average reviews and Images helper functions-------------------------------------------------------
+async function updatedAvgRatings(spots) {
+    const spotsArr = spots;
+    for (const spot of spotsArr) {
+      const reviews = await Review.findAll({
+        where: { spotId: spot.id },
+      });
+      const total = reviews.reduce((sum, reviews) => sum + reviews.stars, 0);
+      spot.dataValues.avgRating = total / reviews.length;
+    }
+}
+
+async function updatedImages(spots) {
+    for (const img of spots) {
+      const images = await SpotImage.findAll({
+        where: {
+          spotId: img.dataValues.id,
+          preview: true,
+        },
+      });
+      if (images.length === 0) {
+        img.dataValues.previewImage = null;
+      } else {
+        img.dataValues.previewImage = images[0].dataValues.url;
+      }
+    }
+    return spots;
+}
+
+
+// //Get all spots------------------------------------------------------------------------------------------------
+// Old code----------------------------------------------------------------
+// router.get('/', async (req, res, next) => {
+//     let {page, size} = req.query;
+
+//     page = parseInt(page);
+//     size = parseInt(size);
+
+//     const err = new Error('Bad Request');
+//     err.status = 400;
+//     err.errors = {};
+//     if(page < 1) err.errors.page = 'Page must be greater than or equal to 1';
+//     if(size < 1) err.errors.size = 'Size must be greater than or equal to 1';
+//     if(Object.keys(err.errors).length) throw err;
+
+//     if(isNaN(page) || !page || page > 10) page = 1;
+//     if(isNaN(size) || !size || size > 20) size = 20;
+
+//     const allSpots = await Spot.findAll({
+//         include: [
+//             Review, 
+//             SpotImage
+//         ],
+//         limit: size,
+//         offset: size * (page - 1)
+//     });
+
+//     const arr = [];
+//     allSpots.forEach(ele => {
+//         const spotBody = ele.toJSON();
+
+//         spotBody.lat = parseFloat(spotBody.lat);
+//         spotBody.lng = parseFloat(spotBody.lng);
+//         spotBody.price = parseFloat(spotBody.price);
+
+//         const reviewsArr = spotBody.Reviews;
+
+//         const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+//         const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+        
+//         spotBody.createdAt = cformat;
+//         spotBody.updatedAt = uformat;
+
+//         let sum = 0;
+
+//         if(reviewsArr && reviewsArr.length > 0){
+//             for(let i = 0; i < reviewsArr.length; i++){
+//                 sum += reviewsArr[i].stars;
+//             }
+//             const avg = sum / reviewsArr.length;
+//             spotBody.avgRating = avg;
+//         } else {
+//             spotBody.avgRating = 'No ratings available';
+//         }
+
+//         //--------spotimages---------------------
+
+//         if(spotBody.SpotImages[0]) spotBody.previewImage = spotBody.SpotImages[0].url;
+//         if(!spotBody.SpotImages[0]) spotBody.previewImage = 'Does not exist';
+
+//         delete spotBody.SpotImages;
+//         delete spotBody.Reviews;
+
+//         arr.push(spotBody);
+//     });
+
+//     res.json({Spots: arr, page, size});
+// });
+//End of old code---------------------------------------------------------------------------------------------------------------
+//Get all spots new code---------------------------------------------------------------------------------------------------
+router.get("/", async (req, res, next) => {
     let {page, size} = req.query;
 
     page = parseInt(page);
@@ -28,107 +127,83 @@ router.get('/', async (req, res, next) => {
     if(isNaN(page) || !page || page > 10) page = 1;
     if(isNaN(size) || !size || size > 20) size = 20;
 
-    const allSpots = await Spot.findAll({
-        include: [Review, SpotImage],
-        limit: size,
-        offset: size * (page - 1)
+  
+    const spots = await Spot.findAll({
+      limit: size,
+      offset: size * (page - 1)
     });
+    await updatedAvgRatings(spots);
+    await updatedImages(spots);
 
-    const arr = [];
-    allSpots.forEach(ele => {
-        const spotBody = ele.toJSON();
-
-        spotBody.lat = parseFloat(spotBody.lat);
-        spotBody.lng = parseFloat(spotBody.lng);
-        spotBody.price = parseFloat(spotBody.price);
-
-        const reviewsArr = spotBody.Reviews;
-
-        const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
-        const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
-        
-        spotBody.createdAt = cformat;
-        spotBody.updatedAt = uformat;
-
-        let sum = 0;
-
-        if(reviewsArr && reviewsArr.length > 0){
-            for(let i = 0; i < reviewsArr.length; i++){
-                sum += reviewsArr[i].stars;
-            }
-            const avg = sum / reviewsArr.length;
-            spotBody.avgRating = avg;
-        } else {
-            spotBody.avgRating = 'No ratings available';
-        }
-
-        //--------spotimages---------------------
-
-        if(spotBody.SpotImages[0]) spotBody.previewImage = spotBody.SpotImages[0].url;
-
-        if(!spotBody.SpotImages[0]) spotBody.previewImage = 'Does not exist';
-
-        delete spotBody.SpotImages;
-        delete spotBody.Reviews;
-
-        arr.push(spotBody);
-    });
-
-    res.json({Spots: arr, page, size});
+    res.json({ Spots: spots, page, size });
 });
+//End of Get all spots new---------------------------------------------------------------------------------------------------------------------
 
 //Get all spots owned by current user-----------------------------------------
-router.get('/current', requireAuth, async (req, res, next) => {
-    const allSpots = await Spot.findAll({
-        where: {ownerId: req.user.id},
-        include: [Review, SpotImage]
-    });
+//Old code--------------------------------------------------------------------
+// router.get('/current', requireAuth, async (req, res, next) => {
+//     const allSpots = await Spot.findAll({
+//         where: {ownerId: req.user.id},
+//         include: [Review, SpotImage]
+//     });
 
-    const arr = [];
+//     const arr = [];
 
-    allSpots.forEach(ele => {
-        const spotBody = ele.toJSON();
+//     allSpots.forEach(ele => {
+//         const spotBody = ele.toJSON();
 
-        spotBody.lat = parseFloat(spotBody.lat);
-        spotBody.lng = parseFloat(spotBody.lng);
-        spotBody.price = parseFloat(spotBody.price);
+//         spotBody.lat = parseFloat(spotBody.lat);
+//         spotBody.lng = parseFloat(spotBody.lng);
+//         spotBody.price = parseFloat(spotBody.price);
 
 
-        const reviewsArr = spotBody.Reviews;
+//         const reviewsArr = spotBody.Reviews;
         
-        const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
-        const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
+//         const cformat = spotBody.createdAt.toISOString().split('T').join(' ').slice(0, 19);
+//         const uformat = spotBody.updatedAt.toISOString().split('T').join(' ').slice(0, 19);
         
-        spotBody.createdAt = cformat;
-        spotBody.updatedAt = uformat;
+//         spotBody.createdAt = cformat;
+//         spotBody.updatedAt = uformat;
 
-        let sum = 0;
+//         let sum = 0;
 
-        if(reviewsArr && reviewsArr.length > 0){
-            for(let i = 0; i < reviewsArr.length; i++){
-                sum += reviewsArr[i].stars;
-            }
-            const avg = sum / reviewsArr.length;
-            spotBody.avgRating = avg;
-        } else {
-            spotBody.avgRating = 'No ratings available';
-        }
+//         if(reviewsArr && reviewsArr.length > 0){
+//             for(let i = 0; i < reviewsArr.length; i++){
+//                 sum += reviewsArr[i].stars;
+//             }
+//             const avg = sum / reviewsArr.length;
+//             spotBody.avgRating = avg;
+//         } else {
+//             spotBody.avgRating = 'No ratings available';
+//         }
 
-        //--------spotimages---------------------
+//         //--------spotimages---------------------
 
-        if(spotBody.SpotImages[0]) spotBody.previewImage = spotBody.SpotImages[0].url;
+//         if(spotBody.SpotImages[0]) spotBody.previewImage = spotBody.SpotImages[0].url;
 
-        if(!spotBody.SpotImages[0]) spotBody.previewImage = 'Does not exist';
+//         if(!spotBody.SpotImages[0]) spotBody.previewImage = 'Does not exist';
 
-        delete spotBody.SpotImages;
-        delete spotBody.Reviews;
+//         delete spotBody.SpotImages;
+//         delete spotBody.Reviews;
 
-        arr.push(spotBody);
+//         arr.push(spotBody);
+//     });
+
+//     res.json({Spots: arr});
+// });
+//End of old code-------------------------------------------------------------------
+//Get all spots owned by current user new-------------------------------------------
+router.get("/current", requireAuth, async (req, res) => {
+    const spots = await Spot.findAll({
+      where: {
+        ownerId: req.user.id,
+      },
     });
-
-    res.json({Spots: arr});
+    await updatedAvgRatings(spots);
+    await updatedImages(spots);
+    res.json({ Spots: spots });
 });
-
+//End of Get all spots owned by current user new--------------------------------------
 //Get details of spot from an id----------------------------------------------
 router.get('/:spotId', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId, {
@@ -244,6 +319,13 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const addedImg = await SpotImage.create({
         spotId: id, url: url, preview: preview
     });
+
+    //Changes added-----------------------------------------
+    if(!spot.previewImage || preview === 'true'){
+        spot.previewImage = url
+        await spot.save()
+    }
+    //------------------------------------------------------
 
     const payload = {id: addedImg.id, url: addedImg.url, preview: addedImg.preview};
 
